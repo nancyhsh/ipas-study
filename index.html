@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iPAS 初級完整備考｜知識 × 考古題 × AI 解析</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap');
+
+:root {
+  --bg: #f7f5f0;
+  --white: #ffffff;
+  --ink: #1c1c28;
+  --ink2: #44445a;
+  --sub: #8888a0;
+  --line: #e2dfd8;
+  --s1: #4c3fd6;
+  --s1-light: #ede9ff;
+  --s2: #c05f00;
+  --s2-light: #fff0e0;
+  --hot: #c0182e;
+  --hot-light: #ffeaed;
+  --pass: #0a7c4e;
+  --pass-light: #e2f7ee;
+  --warn: #a05f00;
+  --warn-light: #fff8e0;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'Noto Sans TC', sans-serif;
+  --radius: 10px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:15px; }
+
+/* ─── HEADER ─── */
+.app-header {
+  background: var(--ink);
+  color: #fff;
+  padding: 1.25rem 1.2rem 1rem;
+}
+.app-header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: .5rem;
+}
+.app-logo {
+  font-family: var(--mono);
+  font-size: .65rem;
+  color: rgba(255,255,255,.45);
+  letter-spacing: .12em;
+  margin-bottom: .3rem;
+}
+.app-title { font-size: 1.15rem; font-weight: 900; line-height: 1.3; }
+.app-title span { color: #a89eff; }
+.app-subtitle { font-size: .75rem; color: rgba(255,255,255,.5); margin-top: .3rem; }
+.exam-badge {
+  background: var(--hot);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: .6rem;
+  padding: .3rem .6rem;
+  border-radius: 6px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  line-height: 1.3;
+  text-align: center;
+}
+
+/* progress bar */
+.progress-wrap { margin-top: .85rem; }
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: .62rem;
+  color: rgba(255,255,255,.4);
+  margin-bottom: .35rem;
+}
+.progress-bar-bg {
+  height: 4px;
+  background: rgba(255,255,255,.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--s1), #a89eff);
+  border-radius: 2px;
+  transition: width .5s ease;
+}
+
+/* ─── NAV ─── */
+.nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  overflow-x: auto;
+  padding: 0 .75rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  -webkit-overflow-scrolling: touch;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav-btn {
+  font-family: var(--mono);
+  font-size: .65rem;
+  padding: .8rem .7rem .65rem;
+  cursor: pointer;
+  color: var(--sub);
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all .18s;
+  letter-spacing: .02em;
+}
+.nav-btn:hover { color: var(--ink); }
+.nav-btn.active { color: var(--s1); border-bottom-color: var(--s1); font-weight: 600; }
+.nav-btn.s2.active { color: var(--s2); border-bottom-color: var(--s2); }
+.nav-btn.qt1.active { color: var(--hot); border-bottom-color: var(--hot); }
+.nav-btn.qt2.active { color: var(--s2); border-bottom-color: var(--s2); }
+.nav-btn.sim.active { color: var(--pass); border-bottom-color: var(--pass); }
+
+/* ─── PAGES ─── */
+.page { display:none; padding: 1rem 1rem 3rem; animation: fadeUp .25s ease; }
+.page.active { display: block; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+/* ─── SECTION TITLE ─── */
+.sec-title {
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .1em;
+  color: var(--sub);
+  text-transform: uppercase;
+  margin: 1.1rem 0 .6rem;
+}
+.sec-title:first-child { margin-top: 0; }
+
+/* ─── KNOWLEDGE CARD ─── */
+.k-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-bottom: .65rem;
+  overflow: hidden;
+}
+.k-header {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding: .85rem .95rem;
+  cursor: pointer;
+}
+.k-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem;
+  flex-shrink: 0;
+}
+.ic1 { background: var(--s1-light); }
+.ic2 { background: var(--s2-light); }
+.ic-hot { background: var(--hot-light); }
+.k-meta { flex: 1; }
+.k-name { font-weight: 700; font-size: .88rem; }
+.k-sub { font-family: var(--mono); font-size: .6rem; color: var(--sub); margin-top: .1rem; }
+.k-tag {
+  font-family: var(--mono);
+  font-size: .58rem;
+  padding: .2rem .45rem;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.tag-high { background: var(--hot-light); color: var(--hot); }
+.tag-mid  { background: var(--warn-light); color: var(--warn); }
+.tag-low  { background: var(--line); color: var(--sub); }
+.k-arrow { color: var(--sub); font-size: .7rem; flex-shrink:0; transition: transform .2s; }
+.k-arrow.open { transform: rotate(90deg); }
+
+.k-body {
+  display: none;
+  padding: 0 .95rem .95rem;
+  border-top: 1px solid var(--line);
+}
+.k-body.open { display: block; }
+
+/* concept rows */
+.c-row {
+  display: flex;
+  gap: .6rem;
+  padding: .5rem 0;
+  border-bottom: 1px solid var(--line);
+  font-size: .82rem;
+  line-height: 1.55;
+}
+.c-row:last-of-type { border-bottom: none; }
+.c-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--s1);
+  flex-shrink: 0;
+  margin-top: 7px;
+}
+.c-dot.s2 { background: var(--s2); }
+
+/* highlight box */
+.h-box {
+  margin-top: .75rem;
+  border-radius: 8px;
+  padding: .7rem .85rem;
+  font-size: .78rem;
+  line-height: 1.7;
+}
+.h-box .h-label {
+  font-family: var(--mono);
+  font-size: .58rem;
+  letter-spacing: .07em;
+  font-weight: 600;
+  margin-bottom: .3rem;
+}
+.h-box.blue { background: var(--s1-light); color: #2d1fa0; }
+.h-box.blue .h-label { color: var(--s1); }
+.h-box.orange { background: var(--s2-light); color: #7a3c00; }
+.h-box.orange .h-label { color: var(--s2); }
+.h-box.green { background: var(--pass-light); color: #054f32; }
+.h-box.green .h-label { color: var(--pass); }
+
+/* term table */
+.term-table { width: 100%; margin-top: .6rem; font-size: .78rem; border-collapse: collapse; }
+.term-table th {
+  font-family: var(--mono);
+  font-size: .6rem;
+  color: var(--sub);
+  font-weight: 600;
+  text-align: left;
+  padding: .4rem .5rem;
+  border-bottom: 2px solid var(--line);
+  background: var(--bg);
+}
+.term-table td {
+  padding: .45rem .5rem;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.term-table tr:last-child td { border-bottom: none; }
+.term-key { font-weight: 700; color: var(--s1); white-space: nowrap; }
+.term-key.s2 { color: var(--s2); }
+
+/* ─── QUIZ ─── */
+.quiz-wrap { }
+.q-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin-bottom: .85rem;
+  overflow: hidden;
+}
+.q-head {
+  padding: .85rem .95rem .5rem;
+}
+.q-meta {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin-bottom: .55rem;
+  flex-wrap: wrap;
+}
+.q-num {
+  font-family: var(--mono);
+  font-size: .62rem;
+  color: var(--sub);
+}
+.q-badge {
+  font-family: var(--mono);
+  font-size: .58rem;
+  padding: .15rem .42rem;
+  border-radius: 4px;
+}
+.qb-s1 { background: var(--s1-light); color: var(--s1); }
+.qb-s2 { background: var(--s2-light); color: var(--s2); }
+.qb-hot { background: var(--hot-light); color: var(--hot); font-weight: 700; }
+.qb-src { background: var(--line); color: var(--sub); }
+
+.q-text {
+  font-size: .88rem;
+  font-weight: 600;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.q-opts { padding: .6rem .95rem; }
+.opt {
+  display: flex;
+  gap: .6rem;
+  align-items: flex-start;
+  padding: .55rem .7rem;
+  border: 1.5px solid var(--line);
+  border-radius: 7px;
+  margin-bottom: .4rem;
+  cursor: pointer;
+  font-size: .82rem;
+  line-height: 1.5;
+  transition: border-color .15s, background .15s;
+}
+.opt:hover { border-color: var(--s1); background: var(--s1-light); }
+.opt-letter {
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 700;
+  width: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--sub);
+}
+.opt.correct { background: var(--pass-light); border-color: var(--pass); }
+.opt.correct .opt-letter { color: var(--pass); }
+.opt.wrong   { background: var(--hot-light); border-color: var(--hot); }
+.opt.wrong   .opt-letter { color: var(--hot); }
+.opt.reveal  { background: #f0fdf6; border-color: #b8eed6; opacity: .8; }
+.opt.disabled { pointer-events: none; }
+
+.q-explain {
+  margin: 0 .95rem .95rem;
+  background: var(--bg);
+  border-radius: 8px;
+  padding: .75rem .9rem;
+  font-size: .79rem;
+  line-height: 1.7;
+  color: var(--ink2);
+  display: none;
+  border-left: 3px solid var(--pass);
+}
+.q-explain.show { display: block; }
+.q-explain .exp-label {
+  font-family: var(--mono);
+  font-size: .6rem;
+  color: var(--pass);
+  font-weight: 600;
+  margin-bottom: .3rem;
+}
+.q-explain strong { color: var(--ink); }
+
+/* AI explain button */
+.ai-btn {
+  margin: .4rem .95rem .95rem;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: .55rem .9rem;
+  font-family: var(--mono);
+  font-size: .68rem;
+  cursor: pointer;
+  width: calc(100% - 1.9rem);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  transition: opacity .2s;
+}
+.ai-btn:hover { opacity: .85; }
+.ai-btn.show { display: flex; }
+.ai-resp {
+  margin: 0 .95rem .95rem;
+  background: #1c1c28;
+  color: #e8e8f0;
+  border-radius: 8px;
+  padding: .85rem .95rem;
+  font-size: .79rem;
+  line-height: 1.75;
+  display: none;
+}
+.ai-resp.show { display: block; }
+.ai-resp .ai-label {
+  font-family: var(--mono);
+  font-size: .6rem;
+  color: #a89eff;
+  margin-bottom: .4rem;
+  font-weight: 600;
+}
+.ai-loading { display: flex; align-items: center; gap: .5rem; color: #8888a8; font-family: var(--mono); font-size: .7rem; }
+.dot-pulse { display: flex; gap: 3px; }
+.dot-pulse span {
+  width:5px;height:5px;border-radius:50%;background:#8888a8;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.dot-pulse span:nth-child(2){animation-delay:.2s}
+.dot-pulse span:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,80%,100%{opacity:.3}40%{opacity:1}}
+
+/* ─── SIMULATION ─── */
+.sim-intro {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+}
+.sim-title { font-size: .95rem; font-weight: 700; margin-bottom: .4rem; }
+.sim-desc { font-size: .8rem; color: var(--ink2); line-height: 1.6; }
+.sim-stats {
+  display: flex;
+  gap: .6rem;
+  margin-top: .8rem;
+}
+.sim-stat {
+  flex: 1;
+  background: var(--bg);
+  border-radius: 7px;
+  padding: .55rem .65rem;
+  text-align: center;
+}
+.sim-stat-num { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; }
+.sim-stat-label { font-size: .65rem; color: var(--sub); margin-top: .1rem; }
+
+.sim-chat {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.chat-messages {
+  padding: .9rem;
+  min-height: 200px;
+  max-height: 420px;
+  overflow-y: auto;
+}
+.chat-msg {
+  margin-bottom: .75rem;
+  animation: fadeUp .2s ease;
+}
+.chat-msg .msg-role {
+  font-family: var(--mono);
+  font-size: .6rem;
+  color: var(--sub);
+  margin-bottom: .25rem;
+}
+.msg-bubble {
+  display: inline-block;
+  padding: .6rem .8rem;
+  border-radius: 10px;
+  font-size: .82rem;
+  line-height: 1.65;
+  max-width: 92%;
+}
+.user-msg .msg-role { text-align: right; }
+.user-msg { text-align: right; }
+.user-msg .msg-bubble { background: var(--s1); color: #fff; border-radius: 10px 10px 2px 10px; }
+.ai-msg .msg-bubble { background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 10px 10px 10px 2px; }
+.ai-msg .msg-bubble.loading { color: var(--sub); }
+
+.chat-input-wrap {
+  padding: .75rem;
+  border-top: 1px solid var(--line);
+  display: flex;
+  gap: .5rem;
+}
+.chat-input {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: .6rem .75rem;
+  font-family: var(--sans);
+  font-size: .82rem;
+  color: var(--ink);
+  resize: none;
+  outline: none;
+}
+.chat-input:focus { border-color: var(--s1); }
+.chat-send {
+  background: var(--s1);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: .6rem .9rem;
+  font-family: var(--mono);
+  font-size: .7rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity .2s;
+}
+.chat-send:hover { opacity: .85; }
+.chat-send:disabled { opacity: .4; cursor: default; }
+
+.quick-prompts {
+  padding: .5rem .75rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+}
+.qp-btn {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  padding: .3rem .7rem;
+  font-size: .72rem;
+  cursor: pointer;
+  transition: all .15s;
+  color: var(--ink2);
+}
+.qp-btn:hover { border-color: var(--s1); color: var(--s1); }
+
+/* ─── SCORE TRACKER ─── */
+.score-bar-row { display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem; }
+.score-bar-label { font-size:.78rem;min-width:72px;color:var(--ink2); }
+.score-bar-track { flex:1;height:8px;background:var(--line);border-radius:4px;overflow:hidden; }
+.score-bar-fill { height:100%;border-radius:4px; }
+.score-bar-val { font-family:var(--mono);font-size:.72rem;min-width:30px;text-align:right; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="app-header-top">
+    <div>
+      <div class="app-logo">iPAS · 初級完整備考</div>
+      <div class="app-title">AI 應用規劃師<br><span>完整攻略手冊</span></div>
+      <div class="app-subtitle">知識精讀 × 考古題 × 模擬測驗 × AI 家教</div>
+    </div>
+    <div class="exam-badge">8/15<br>考試</div>
+  </div>
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>學習進度</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="prog-bar" style="width:0%"></div>
+    </div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-btn active"    onclick="goPage('s1')">📗 科目一知識</div>
+  <div class="nav-btn s2"        onclick="goPage('s2')">📙 科目二知識</div>
+  <div class="nav-btn qt1"       onclick="goPage('qt1')">📝 科目一考古題</div>
+  <div class="nav-btn qt2"       onclick="goPage('qt2')">📝 科目二考古題</div>
+  <div class="nav-btn sim"       onclick="goPage('sim')">🤖 AI 家教問答</div>
+</nav>
+
+<!-- ═══════════ 科目一知識 ═══════════ -->
+<div class="page active" id="page-s1">
+
+  <div class="sec-title">▸ 科目一：人工智慧基礎概論 — 必讀知識</div>
+
+  <!-- 1. AI 分類 -->
+  <div class="k-card" id="kc1">
+    <div class="k-header" onclick="toggleK('kc1')">
+      <div class="k-icon ic1">🧠</div>
+      <div class="k-meta">
+        <div class="k-name">AI、ML、DL 三層架構與分類</div>
+        <div class="k-sub">L11101 · 基礎必背</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kc1">▶</div>
+    </div>
+    <div class="k-body" id="body-kc1">
+      <table class="term-table">
+        <tr><th>概念</th><th>說明</th><th>範例</th></tr>
+        <tr><td class="term-key">AI</td><td>人工智慧，最大範疇，讓機器模擬人類智慧行為</td><td>語音助理、自動駕駛</td></tr>
+        <tr><td class="term-key">ML</td><td>機器學習，AI 子集，從資料中自動學習規律</td><td>推薦系統、詐欺偵測</td></tr>
+        <tr><td class="term-key">DL</td><td>深度學習，ML 子集，使用多層神經網路</td><td>影像辨識、語音辨識</td></tr>
+      </table>
+      <div class="h-box blue">
+        <div class="h-label">⬥ 弱 AI vs 強 AI vs 超級 AI</div>
+        <b>弱 AI（窄 AI）</b>：只能執行特定任務，目前所有 AI 都屬此類（ChatGPT、AlphaGo）<br>
+        <b>強 AI</b>：具備人類等級的通用智慧，目前尚未實現<br>
+        <b>超級 AI</b>：超越人類智慧，理論概念，尚未存在
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ 四種學習方式（情境題必考）</div>
+        <b>監督式</b>：有標籤資料 → 分類/迴歸問題（垃圾郵件偵測）<br>
+        <b>非監督式</b>：無標籤資料 → 分群/降維（客群分析）<br>
+        <b>半監督式</b>：少量有標籤 + 大量無標籤資料<br>
+        <b>強化學習</b>：透過獎懲機制學習 → 動態決策（下圍棋、自動駕駛）
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. 法規治理 -->
+  <div class="k-card" id="kc2">
+    <div class="k-header" onclick="toggleK('kc2')">
+      <div class="k-icon ic-hot">⚖️</div>
+      <div class="k-meta">
+        <div class="k-name">AI 治理、倫理與法規</div>
+        <div class="k-sub">L11102 · L11203 · 115 年新增高頻</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kc2">▶</div>
+    </div>
+    <div class="k-body" id="body-kc2">
+      <div class="h-box orange">
+        <div class="h-label">⬥ 台灣《人工智慧基本法》（115 年新增考點）</div>
+        生效日：<b>2026 年 1 月 14 日</b><br>
+        中央主管機關：<b>國家科學及技術委員會（國科會）</b><br>
+        核心：促進 AI 創新發展，同時保障人民基本權利與公共利益<br>
+        特色：不針對特定技術立法，採風險管理框架
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ 歐盟 AI Act 四大風險等級（必背）</div>
+        🔴 <b>不可接受風險</b>：禁用。社會信用評分、大規模即時生物特徵辨識<br>
+        🟠 <b>高風險</b>：嚴格規管。招募 AI、信貸審核、醫療、執法<br>
+        🟡 <b>有限風險</b>：透明標示要求。聊天機器人（需告知用戶是 AI）<br>
+        🟢 <b>最低風險</b>：幾乎無規範。垃圾郵件過濾、推薦系統<br><br>
+        ⭐ 考點：<b>員工臉部辨識打卡 = 高風險</b>（生物特徵辨識用於就業）
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ Human-AI 協作三模式（高頻考點）</div>
+        <b>Human-in-the-loop</b>：人在決策流程「內部」，每一步都需人工審批<br>
+        <b>Human-on-the-loop</b>：AI 自動執行，人類在旁「持續監督」可隨時介入<br>
+        <b>Human-over-the-loop</b>：人設定目標規則，AI 全自動執行，人在最高層「宏觀管控」
+      </div>
+      <table class="term-table" style="margin-top:.6rem">
+        <tr><th>倫理原則</th><th>說明</th></tr>
+        <tr><td class="term-key">公平性</td><td>不因性別、種族等歧視，模型不產生偏見</td></tr>
+        <tr><td class="term-key">可解釋性</td><td>AI 決策過程能被人類理解（XAI）</td></tr>
+        <tr><td class="term-key">透明性</td><td>揭露 AI 使用情況，標示 AI 生成內容</td></tr>
+        <tr><td class="term-key">問責性</td><td>明確 AI 決策的責任歸屬</td></tr>
+        <tr><td class="term-key">隱私</td><td>保護個人資料，遵守個資法 / GDPR</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. 資料處理 -->
+  <div class="k-card" id="kc3">
+    <div class="k-header" onclick="toggleK('kc3')">
+      <div class="k-icon ic1">🗄️</div>
+      <div class="k-meta">
+        <div class="k-name">資料處理、清洗與特徵工程</div>
+        <div class="k-sub">L11201 · L11202 · 陷阱題重災區</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kc3">▶</div>
+    </div>
+    <div class="k-body" id="body-kc3">
+      <div class="c-row"><div class="c-dot"></div><div><b>資料生命週期</b>：收集 → 清洗 → 前處理 → 特徵工程 → 建模 → 評估 → 部署</div></div>
+      <div class="c-row"><div class="c-dot"></div><div><b>資料類型</b>：結構化（表格/CSV）、非結構化（圖像/文字/音訊）、半結構化（JSON/XML）</div></div>
+      <div class="c-row"><div class="c-dot"></div><div><b>缺失值處理</b>：刪除（資料量充足時）、均值/中位數填補（數值型）、眾數填補（類別型）</div></div>
+      <div class="c-row"><div class="c-dot"></div><div><b>異常值偵測</b>：Z-score（超過 ±3 標準差）、IQR 四分位距法</div></div>
+      <div class="c-row"><div class="c-dot"></div><div><b>One-hot Encoding</b>：類別型特徵轉為 0/1 數值（如「紅/藍/綠」→ 三個 0/1 欄）</div></div>
+      <div class="c-row"><div class="c-dot"></div><div><b>標準化（Standardization）</b>：轉為均值 0、標準差 1，適合常態分布資料</div></div>
+      <div class="c-row"><div class="c-dot"></div><div><b>正規化（Normalization）</b>：壓縮至 [0,1] 區間，適合數值範圍差異大的資料</div></div>
+      <div class="h-box orange" style="margin-top:.65rem">
+        <div class="h-label">⬥ ⚠ 資料洩漏（Data Leakage）— 高頻陷阱題</div>
+        <b>正確做法</b>：先分割訓練集/測試集 → 只用訓練集計算均值/標準差 → 再套用到測試集<br>
+        <b>錯誤做法</b>：用全部資料計算標準化參數（讓測試集資訊「洩漏」進訓練過程）<br>
+        記憶口訣：<b>「先切後算，只用訓練」</b>
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ 類別不平衡處理（SMOTE）</div>
+        問題：正負樣本比例極度不均，模型偏向多數類<br>
+        解法：SMOTE（合成少數過採樣技術）、調整損失函數權重、資料增強
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 機器學習 -->
+  <div class="k-card" id="kc4">
+    <div class="k-header" onclick="toggleK('kc4')">
+      <div class="k-icon ic1">⚙️</div>
+      <div class="k-meta">
+        <div class="k-name">機器學習模型、評估與調優</div>
+        <div class="k-sub">L11301 · L11302 · 情境題核心</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kc4">▶</div>
+    </div>
+    <div class="k-body" id="body-kc4">
+      <div class="h-box blue">
+        <div class="h-label">⬥ 情境題解題公式（反覆背誦）</div>
+        看到<b>「預測數值/金額/數量」</b> → <b>迴歸</b>（線性迴歸、決策樹迴歸）<br>
+        看到<b>「預測是/否、類別」</b> → <b>分類</b>（邏輯迴歸、決策樹、SVM）<br>
+        看到<b>「找相似群體、無標籤」</b> → <b>分群</b>（K-Means、階層式分群）<br>
+        看到<b>「動態決策、遊戲、機器人」</b> → <b>強化學習</b>
+      </div>
+      <table class="term-table" style="margin-top:.65rem">
+        <tr><th>模型</th><th>類型</th><th>適用場景</th></tr>
+        <tr><td class="term-key">線性迴歸</td><td>迴歸</td><td>預測連續數值（房價、銷售額）</td></tr>
+        <tr><td class="term-key">邏輯迴歸</td><td>分類</td><td>二元分類（是/否流失、垃圾郵件）</td></tr>
+        <tr><td class="term-key">決策樹</td><td>分類/迴歸</td><td>可解釋性高，規則清晰的情境</td></tr>
+        <tr><td class="term-key">隨機森林</td><td>分類/迴歸</td><td>多棵決策樹集成，準確率高</td></tr>
+        <tr><td class="term-key">K-Means</td><td>分群</td><td>客群分析、文件分類（無標籤）</td></tr>
+        <tr><td class="term-key">SVM</td><td>分類</td><td>高維度資料，二元分類</td></tr>
+      </table>
+      <div class="h-box orange" style="margin-top:.65rem">
+        <div class="h-label">⬥ 過擬合 vs 欠擬合（必背）</div>
+        <b>過擬合（Overfitting）</b>：訓練準確率高 but 測試準確率低（記憶了訓練資料雜訊）<br>
+        解法：Dropout、L1/L2 正則化、Early Stopping、增加訓練資料多樣性<br><br>
+        <b>欠擬合（Underfitting）</b>：訓練和測試準確率都低（模型太簡單）<br>
+        解法：增加模型複雜度、更多特徵、更長訓練時間
+      </div>
+      <table class="term-table" style="margin-top:.65rem">
+        <tr><th>評估指標</th><th>公式概念</th><th>適用</th></tr>
+        <tr><td class="term-key">Accuracy</td><td>正確預測數 / 總數</td><td>一般情況</td></tr>
+        <tr><td class="term-key">Precision</td><td>預測為正 → 真的為正的比例</td><td>降低誤報</td></tr>
+        <tr><td class="term-key">Recall</td><td>真正為正 → 被正確預測的比例</td><td>降低漏報</td></tr>
+        <tr><td class="term-key">F1-Score</td><td>Precision × Recall 的調和平均</td><td>不平衡資料</td></tr>
+        <tr><td class="term-key">AUC-ROC</td><td>曲線下面積，越接近 1 越好</td><td>二元分類整體效能</td></tr>
+      </table>
+      <div class="h-box blue" style="margin-top:.65rem">
+        <div class="h-label">⬥ 可解釋 AI（XAI）對象選擇</div>
+        <b>SHAP</b>：向工程師解釋，找問題根源（特徵重要性數值）<br>
+        <b>反事實解釋</b>：向客戶解釋「你要改什麼才能過關」（如：貸款被拒的改善建議）<br>
+        <b>Saliency Map</b>：影像模型，顯示模型「看哪裡」做決策
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. 深度學習 -->
+  <div class="k-card" id="kc5">
+    <div class="k-header" onclick="toggleK('kc5')">
+      <div class="k-icon ic1">🌐</div>
+      <div class="k-meta">
+        <div class="k-name">深度學習與神經網路架構</div>
+        <div class="k-sub">L11304 · L11305</div>
+      </div>
+      <div class="k-tag tag-mid">中頻</div>
+      <div class="k-arrow" id="arr-kc5">▶</div>
+    </div>
+    <div class="k-body" id="body-kc5">
+      <table class="term-table">
+        <tr><th>架構</th><th>特點</th><th>適用</th></tr>
+        <tr><td class="term-key">CNN</td><td>卷積層提取局部特徵，對位移不變</td><td>影像辨識、電腦視覺</td></tr>
+        <tr><td class="term-key">RNN</td><td>有記憶的序列模型，但有梯度消失問題</td><td>時間序列、早期 NLP</td></tr>
+        <tr><td class="term-key">LSTM</td><td>改良 RNN，加入記憶閘門解決梯度消失</td><td>長文本、序列預測</td></tr>
+        <tr><td class="term-key">Transformer</td><td>自注意力機制，可並行運算</td><td>LLM 基礎架構（GPT/BERT）</td></tr>
+      </table>
+      <div class="c-row" style="margin-top:.6rem"><div class="c-dot"></div><div><b>激活函數</b>：ReLU（最常用，計算快）、Sigmoid（輸出 0~1，用於二元分類輸出層）、tanh（輸出 -1~1）</div></div>
+      <div class="c-row"><div class="c-dot"></div><div><b>遷移學習（Transfer Learning）</b>：使用已在大型資料集訓練好的模型，在新任務上微調，節省時間和資源</div></div>
+      <div class="c-row"><div class="c-dot"></div><div><b>邊緣 AI（Edge AI）</b>：在終端裝置（手機/IoT）推論，優點：低延遲、資料不傳雲端（隱私保護）；缺點：運算資源有限</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 科目二知識 ═══════════ -->
+<div class="page" id="page-s2">
+
+  <div class="sec-title">▸ 科目二：生成式 AI 應用與規劃 — 必讀知識</div>
+
+  <!-- GenAI 原理 -->
+  <div class="k-card" id="kc6">
+    <div class="k-header" onclick="toggleK('kc6')">
+      <div class="k-icon ic2">✨</div>
+      <div class="k-meta">
+        <div class="k-name">生成式 AI 原理與 LLM 技術</div>
+        <div class="k-sub">L12101 · L12102</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kc6">▶</div>
+    </div>
+    <div class="k-body" id="body-kc6">
+      <div class="h-box orange">
+        <div class="h-label">⬥ 鑑別式 AI vs 生成式 AI</div>
+        <b>鑑別式 AI（Discriminative）</b>：判斷輸入屬於哪個類別（垃圾郵件偵測、圖像分類）<br>
+        <b>生成式 AI（Generative）</b>：創造全新內容（文字、圖像、音樂、程式碼）<br>
+        代表模型：GPT（文字）、DALL-E/Stable Diffusion（圖像）、Sora（影片）
+      </div>
+      <table class="term-table" style="margin-top:.65rem">
+        <tr><th>名詞</th><th>說明</th></tr>
+        <tr><td class="term-key s2">LLM</td><td>大型語言模型，以海量文字訓練，能生成、理解文字</td></tr>
+        <tr><td class="term-key s2">Token</td><td>LLM 處理文字的基本單位，約 0.75 個英文單字</td></tr>
+        <tr><td class="term-key s2">Context Window</td><td>模型一次能處理的最大 Token 數量（越大越好）</td></tr>
+        <tr><td class="term-key s2">Temperature</td><td>控制輸出隨機性：0 = 確定、1 = 創意、>1 = 混亂</td></tr>
+        <tr><td class="term-key s2">幻覺 Hallucination</td><td>模型自信地輸出不正確資訊，是 LLM 主要缺陷</td></tr>
+        <tr><td class="term-key s2">多模態 AI</td><td>同時處理文字、圖像、音訊等多種資料類型</td></tr>
+      </table>
+      <div class="h-box orange" style="margin-top:.6rem">
+        <div class="h-label">⬥ AI Agent（115 年高頻新考點）</div>
+        定義：能自主感知環境、規劃行動、執行任務的 AI 系統<br>
+        架構：<b>感知</b>（輸入）→ <b>記憶</b>（上下文）→ <b>規劃</b>（推理）→ <b>行動</b>（執行）<br>
+        例子：自動搜尋、寫報告、發郵件的 AI 助理
+      </div>
+    </div>
+  </div>
+
+  <!-- Prompt -->
+  <div class="k-card" id="kc7">
+    <div class="k-header" onclick="toggleK('kc7')">
+      <div class="k-icon ic2">💬</div>
+      <div class="k-meta">
+        <div class="k-name">Prompt 提示工程與 RAG</div>
+        <div class="k-sub">L12201 · L12202 · 您的優勢區</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kc7">▶</div>
+    </div>
+    <div class="k-body" id="body-kc7">
+      <table class="term-table">
+        <tr><th>技術</th><th>說明</th><th>特點</th></tr>
+        <tr><td class="term-key s2">Zero-shot</td><td>不提供範例，直接下指令</td><td>快速，效果普通</td></tr>
+        <tr><td class="term-key s2">Few-shot</td><td>提供 2–5 個示例讓模型學習格式</td><td>效果好，成本略高</td></tr>
+        <tr><td class="term-key s2">Chain-of-Thought</td><td>要求「一步一步思考」（Let's think step by step）</td><td>提升複雜推理準確率</td></tr>
+        <tr><td class="term-key s2">Tree-of-Thought</td><td>探索多條推理路徑後選最佳（CoT 升級版）</td><td>解複雜問題</td></tr>
+        <tr><td class="term-key s2">RAG</td><td>先檢索相關文件，再讓模型根據文件生成答案</td><td>降低幻覺、知識可更新</td></tr>
+      </table>
+      <div class="h-box orange" style="margin-top:.65rem">
+        <div class="h-label">⬥ 好 Prompt 的四要素</div>
+        1. <b>角色設定</b>：「你是一位資深 HR 顧問...」<br>
+        2. <b>任務明確</b>：具體說明要做什麼<br>
+        3. <b>格式指定</b>：「請用條列方式輸出」<br>
+        4. <b>範例提供</b>：Few-shot 效果更穩定
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ RAG vs Fine-tuning 選擇</div>
+        <b>RAG</b>：知識會更新、需要引用來源、預算有限 → 選 RAG<br>
+        <b>Fine-tuning</b>：需要特定風格/語氣、任務固定且高頻、有大量標註資料 → 選 Fine-tuning
+      </div>
+    </div>
+  </div>
+
+  <!-- No Code -->
+  <div class="k-card" id="kc8">
+    <div class="k-header" onclick="toggleK('kc8')">
+      <div class="k-icon ic2">🏗️</div>
+      <div class="k-meta">
+        <div class="k-name">No Code / Low Code 與 AI 導入規劃</div>
+        <div class="k-sub">L12301 · L12302 · L12303</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kc8">▶</div>
+    </div>
+    <div class="k-body" id="body-kc8">
+      <table class="term-table">
+        <tr><th></th><th>No Code</th><th>Low Code</th><th>傳統開發</th></tr>
+        <tr><td class="term-key s2">技術門檻</td><td>無需程式</td><td>少量程式</td><td>完整程式</td></tr>
+        <tr><td class="term-key s2">開發速度</td><td>最快</td><td>快</td><td>慢</td></tr>
+        <tr><td class="term-key s2">客製化</td><td>低</td><td>中</td><td>高</td></tr>
+        <tr><td class="term-key s2">擴展性</td><td>低</td><td>中</td><td>高</td></tr>
+        <tr><td class="term-key s2">代表工具</td><td>Zapier、Make</td><td>Power Apps</td><td>Python/JS</td></tr>
+      </table>
+      <div class="h-box orange" style="margin-top:.65rem">
+        <div class="h-label">⬥ AI 導入評估五步驟</div>
+        1. <b>需求分析</b>：確認業務痛點，AI 是否為最佳解<br>
+        2. <b>可行性評估</b>：資料品質、技術成熟度、法規合規<br>
+        3. <b>POC 驗證</b>：小規模試驗，驗證假設<br>
+        4. <b>成本效益分析（ROI）</b>：量化節省人力 + 質化決策品質提升<br>
+        5. <b>風險管理</b>：技術/資料/法規/組織文化風險識別與緩解
+      </div>
+      <div class="h-box green" style="margin-top:.5rem">
+        <div class="h-label">⬥ HR 背景加分：AI 導入失敗的主因</div>
+        考試情境題答「AI 導入為何失敗」，答案通常是：<br>
+        ✅ <b>組織文化阻力</b>、<b>缺乏員工培訓</b>、<b>資料品質不足</b><br>
+        ❌ 不是「技術不夠先進」或「預算不足」（這些是次因）
+      </div>
+    </div>
+  </div>
+
+  <!-- 安全法規 -->
+  <div class="k-card" id="kc9">
+    <div class="k-header" onclick="toggleK('kc9')">
+      <div class="k-icon ic-hot">🛡️</div>
+      <div class="k-meta">
+        <div class="k-name">AI 安全、版權與合規</div>
+        <div class="k-sub">L12401 · L12402 · 115 年越考越多</div>
+      </div>
+      <div class="k-tag tag-mid">中頻</div>
+      <div class="k-arrow" id="arr-kc9">▶</div>
+    </div>
+    <div class="k-body" id="body-kc9">
+      <div class="c-row"><div class="c-dot s2"></div><div><b>深偽（Deepfake）</b>：AI 生成的逼真假影片/圖片，需標示 AI 生成來源（C2PA 標準）</div></div>
+      <div class="c-row"><div class="c-dot s2"></div><div><b>Prompt Injection</b>：惡意用戶透過 Prompt 操控 AI 執行非預期行為，需過濾輸入</div></div>
+      <div class="c-row"><div class="c-dot s2"></div><div><b>AI 著作權</b>：AI 生成作品的版權歸屬爭議，目前多數國家認為 AI 無法持有版權</div></div>
+      <div class="c-row"><div class="c-dot s2"></div><div><b>GDPR / 個資法</b>：處理個人資料需告知目的、取得同意、限制使用範圍</div></div>
+      <div class="c-row"><div class="c-dot s2"></div><div><b>AI 安全測試</b>：紅隊測試（Red Teaming）、對抗性樣本（Adversarial Examples）測試</div></div>
+      <div class="c-row"><div class="c-dot s2"></div><div><b>SynthID</b>：Google 開發的 AI 生成內容浮水印技術，用於標示 AI 圖片</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ 科目一考古題 ═══════════ -->
+<div class="page" id="page-qt1">
+  <div class="sec-title">▸ 科目一考古題｜官方樣題 + 公告試題精選</div>
+  <div id="quiz-s1-wrap"></div>
+</div>
+
+<!-- ═══════════ 科目二考古題 ═══════════ -->
+<div class="page" id="page-qt2">
+  <div class="sec-title">▸ 科目二考古題｜官方樣題 + 公告試題精選</div>
+  <div id="quiz-s2-wrap"></div>
+</div>
+
+<!-- ═══════════ AI 家教 ═══════════ -->
+<div class="page" id="page-sim">
+  <div class="sim-intro">
+    <div class="sim-title">🤖 AI 家教問答</div>
+    <div class="sim-desc">專屬 iPAS 初級備考的 AI 助教。可問任何概念、請求出題、要求解釋錯誤、或以 HR 視角幫你理解考點。</div>
+    <div class="sim-stats">
+      <div class="sim-stat"><div class="sim-stat-num" style="color:var(--s1)" id="q-count">0</div><div class="sim-stat-label">提問次數</div></div>
+      <div class="sim-stat"><div class="sim-stat-num" style="color:var(--pass)" id="session-time">0</div><div class="sim-stat-label">學習分鐘</div></div>
+    </div>
+  </div>
+
+  <div class="sim-chat">
+    <div class="quick-prompts">
+      <div class="qp-btn" onclick="sendQuick('幫我出3題科目一考古練習題')">出題：科目一</div>
+      <div class="qp-btn" onclick="sendQuick('幫我出3題科目二考古練習題')">出題：科目二</div>
+      <div class="qp-btn" onclick="sendQuick('用白話解釋什麼是 RAG？')">解釋 RAG</div>
+      <div class="qp-btn" onclick="sendQuick('Data Leakage 是什麼？為何重要？')">Data Leakage</div>
+      <div class="qp-btn" onclick="sendQuick('歐盟 AI Act 四大風險幫我用表格整理')">AI Act 整理</div>
+      <div class="qp-btn" onclick="sendQuick('我是 HR，請用組織管理的角度解釋 AI 導入規劃題型的答題策略')">HR 視角策略</div>
+    </div>
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-msg ai-msg">
+        <div class="msg-role">AI 家教</div>
+        <div class="msg-bubble">你好！我是你的 iPAS 初級備考 AI 家教。距離 8/15 考試還有 10 週，你可以問我任何考試相關問題：<br><br>
+        ・請我出題測驗<br>
+        ・解釋不懂的概念<br>
+        ・幫你整理重點筆記<br>
+        ・用 HR 視角解析題型<br><br>
+        點上方快捷按鈕或直接輸入問題吧！</div>
+      </div>
+    </div>
+    <div class="chat-input-wrap">
+      <textarea class="chat-input" id="chat-input" rows="2" placeholder="輸入問題...（如：解釋過擬合、幫我出題、HR 如何理解 AI 導入規劃）"></textarea>
+      <button class="chat-send" id="chat-send" onclick="sendChat()">送出</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───
+const quizS1 = [
+  {
+    num:"Q1", src:"樣題 114.04", badge:"s1",
+    q:"下列何者最適合訓練電腦下圍棋、自動駕駛等動態重複互動的問題？",
+    opts:["監督式學習","非監督式學習","半監督式學習","強化學習"],
+    ans:3,
+    exp:"強化學習（Reinforcement Learning）透過「試誤」和「獎懲機制」讓 AI 學習最佳策略，特別適合需要連續動態決策的任務（遊戲、自動駕駛、機器人）。監督式是有標籤的分類/迴歸；非監督式是分群；半監督是少量有標籤加無標籤。"
+  },
+  {
+    num:"Q2", src:"樣題 114.04", badge:"s1",
+    q:"深度學習模型中，下列哪一項通常用來降低過擬合（Overfitting）問題？",
+    opts:["增加訓練數據量","增加模型的複雜度","增加學習率","增加正則化項（Regularization）"],
+    ans:3,
+    exp:"正則化（L1/L2）對損失函數加入懲罰項，限制模型參數大小，避免模型過度擬合訓練資料細節。增加模型複雜度反而會加重過擬合。增加訓練數據多樣性（非單純增加量）有幫助，但不是直接方法。"
+  },
+  {
+    num:"Q3", src:"樣題 114.04", badge:"s1",
+    q:"大數據時代資料的特性，下列何者「不是」？",
+    opts:["資料量大（Volume）","資料變動速度快（Velocity）","資料多樣性（Variety）","資料存儲位置固定"],
+    ans:3,
+    exp:"大數據的 5V 特性：Volume（量大）、Velocity（速度快）、Variety（多樣性）、Veracity（真實性）、Value（價值）。「存儲位置固定」不是大數據特性，大數據通常分散存儲在多個節點。"
+  },
+  {
+    num:"Q4", src:"115 第一次公告", badge:"s1", hot:true,
+    q:"某紡織廠導入 AI 布料瑕疵檢測系統，每日資料從 2GB 增長至 50GB，需在布料離線前 3 秒內完成判定，尖峰時段出現判定延遲。若要優先改善此問題，下列哪種做法最適合？",
+    opts:["擴充資料儲存容量以因應長期累積","強化即時資料處理與推論計算資源配置","重新訓練更複雜的深度學習模型","建立離線批次處理流程取代即時判定"],
+    ans:1,
+    exp:"問題核心是「尖峰時段延遲」（即時性問題），不是儲存問題。應優先強化推論端的計算資源（GPU 加速、邊緣 AI 部署），降低推論延遲。重新訓練複雜模型會讓推論更慢；離線批次處理無法滿足「3 秒內完成」的即時需求。"
+  },
+  {
+    num:"Q5", src:"114 第四次公告", badge:"s1",
+    q:"某公司欲建立員工離職風險預測模型，資料集包含績效分數（1-5）、平均每月加班時數（0-80）、年齡（20-65）等特徵。各特徵數值範圍差異極大，為提升梯度下降的收斂效率，下列哪種特徵工程方法最適合？",
+    opts:["One-hot Encoding","Min-Max 正規化（Normalization）","主成分分析（PCA）降維","刪除數值範圍最大的特徵"],
+    ans:1,
+    exp:"數值範圍差異極大時，梯度下降會因各特徵量級不同而收斂緩慢或偏斜。Min-Max 正規化將所有特徵壓縮至 [0,1] 區間，使各特徵對模型的影響量級一致。One-hot 用於類別型特徵；PCA 用於降維；刪除特徵會損失資訊。"
+  },
+  {
+    num:"Q6", src:"115 第一次公告", badge:"s1", hot:true,
+    q:"資料科學團隊在模型訓練前需對數值特徵標準化。為確保模型評估結果真實並避免資料洩漏，下列做法何者最正確？",
+    opts:["先用全部資料計算均值標準差，再分割訓練測試集","訓練集與測試集分別計算各自的標準化參數","先分割訓練集與測試集，只用訓練集計算參數再套用到測試集","只對訓練資料標準化，測試資料保持原始值"],
+    ans:2,
+    exp:"防止資料洩漏的鐵則：「先切後算，只用訓練」。正確做法：①先分割訓練/測試集 → ②只用訓練集計算均值和標準差 → ③將同樣的參數套用到測試集。若先計算再分割，測試集資訊已「洩漏」到訓練過程中，造成評估結果過於樂觀。"
+  },
+  {
+    num:"Q7", src:"115 第一次公告", badge:"s1", hot:true,
+    q:"關於 Human-AI 協作模式，「AI 系統自動執行決策，人類在旁監督並可隨時介入修正」，這符合哪種模式？",
+    opts:["Human-in-the-loop","Human-on-the-loop","Human-over-the-loop","Full Autonomy（完全自動化）"],
+    ans:1,
+    exp:"三種模式對比：Human-in-the-loop（人在迴圈內）= 每步都需人工審批；Human-on-the-loop（人在迴圈上）= AI 自動執行，人旁監督可隨時介入 ← 本題；Human-over-the-loop（人在迴圈外）= 人設定規則，AI 全自動，人進行宏觀管控。"
+  },
+  {
+    num:"Q8", src:"樣題/阿摩", badge:"s1",
+    q:"K-Means 聚類算法中，K 代表什麼？",
+    opts:["資料集中特徵的數量","資料集中樣本的總數","所需劃分的群組數量","演算法的迭代次數"],
+    ans:2,
+    exp:"K-Means 中的 K 就是「想要分成幾群」的數字，需要由使用者預先指定。這是 K-Means 的主要缺點之一——需要事先知道分群數量 K。"
+  }
+];
+
+const quizS2 = [
+  {
+    num:"Q1", src:"樣題 114.04", badge:"s2",
+    q:"下列何者最能表達 No Code / Low Code 平台的主要特色？",
+    opts:["需要撰寫大量程式碼","運用模板快速建立應用程式","僅供專業開發人員使用","只能製作靜態網站"],
+    ans:1,
+    exp:"No Code / Low Code 平台的核心特色是透過視覺化拖拉介面和模板，讓非技術人員也能快速建立應用程式，大幅降低開發門檻和時間。"
+  },
+  {
+    num:"Q2", src:"樣題 114.04", badge:"s2",
+    q:"下列哪種情況，選擇 Low Code 平台可能比 No Code 平台更為適合？",
+    opts:["需要非技術人員快速開發","應用需求簡單無需自訂功能","需要較複雜的業務邏輯並使用自訂整合功能","預算和時間極度有限"],
+    ans:2,
+    exp:"Low Code 允許少量程式碼，適合需要客製化業務邏輯或整合外部系統 API 的場景。No Code 完全不需寫程式，但客製化程度有限，適合簡單快速的應用。需要複雜邏輯但不想全自建時，Low Code 是最佳中間地帶。"
+  },
+  {
+    num:"Q3", src:"114 第四次公告", badge:"s2",
+    q:"使用生成式 AI 技術生成內容時，應採取哪項措施以確保內容品質？",
+    opts:["讓 AI 完全自主生成，不需人工審核","建立人工審核機制，確保輸出符合品質標準","提高 Temperature 參數使輸出更多樣","禁止在正式場合使用 AI 生成內容"],
+    ans:1,
+    exp:"生成式 AI 可能產生幻覺（Hallucination）、偏見或不準確資訊，因此需要建立人工審核機制（Human-in-the-loop）確保內容品質。提高 Temperature 只會讓輸出更隨機，無助於品質控管。"
+  },
+  {
+    num:"Q4", src:"115 年高頻", badge:"s2", hot:true,
+    q:"公司想讓 AI 助理回答員工關於內部 HR 政策的問題，要求答案有所本且可追溯來源，並降低 AI 幻覺風險。下列哪種技術最適合？",
+    opts:["對模型進行 Fine-tuning（微調）","採用 RAG（檢索增強生成）架構","使用 Zero-shot Prompting","提高 Top-p 採樣參數"],
+    ans:1,
+    exp:"RAG（Retrieval-Augmented Generation）先從指定文件庫中檢索相關段落，再讓 LLM 基於這些段落生成回答，有效降低幻覺且答案可追溯來源。Fine-tuning 成本高且模型仍可能幻覺；Zero-shot 無參考資料支撐；調整 Top-p 只影響輸出多樣性。"
+  },
+  {
+    num:"Q5", src:"115 年高頻", badge:"s2", hot:true,
+    q:"Chain-of-Thought（CoT）提示工程技術的主要目的是什麼？",
+    opts:["讓模型輸出更短更精簡的答案","透過引導模型逐步推理來提升複雜問題的準確率","降低模型的 API 使用費用","讓模型記住更多歷史對話"],
+    ans:1,
+    exp:"Chain-of-Thought 透過提示「讓我們一步一步思考...」引導模型展示中間推理過程，類似人類「打草稿」思考，能顯著提升數學計算、邏輯推理等複雜任務的準確率。"
+  },
+  {
+    num:"Q6", src:"115 年/歐盟 AI Act", badge:"s2", hot:true,
+    q:"根據歐盟 AI Act，某公司在辦公室使用 AI 系統即時辨識員工臉部以進行出勤管理，此 AI 應用屬於哪種風險等級？",
+    opts:["最低風險（Minimal Risk）","有限風險（Limited Risk）","高風險（High Risk）","不可接受風險（Unacceptable Risk）"],
+    ans:2,
+    exp:"歐盟 AI Act 將「用於就業場所的生物特徵辨識」歸類為高風險（High Risk），需接受嚴格的合規要求（透明性說明、資料登記等）。不可接受風險是指公共場所即時遠端生物特徵辨識（執法用途）。非執法目的的職場臉部辨識 = 高風險。"
+  },
+  {
+    num:"Q7", src:"114 樣題/實務", badge:"s2",
+    q:"在生成式 AI 導入過程中，資料安全與隱私保護最重要的考量是什麼？",
+    opts:["設定目標優先級","確保資料使用符合相關法規，保護用戶隱私","提升 AI 系統的計算效能","降低 AI 系統的開發成本"],
+    ans:1,
+    exp:"AI 導入涉及大量用戶資料，最重要的是確保資料處理符合個資法/GDPR 等法規，取得適當同意，並限制資料使用目的。忽視隱私合規可能面臨法律風險和用戶信任危機。"
+  },
+  {
+    num:"Q8", src:"115 年新增", badge:"s2", hot:true,
+    q:"企業評估「自建 AI 系統 vs 採購現成 AI 服務」(Buy vs. Build 決策)，下列哪種情況最適合選擇「採購（Buy）」？",
+    opts:["需要高度客製化的特殊演算法","有大量專屬訓練資料且需保護競爭優勢","需快速部署且業務需求符合市場通用解決方案","AI 為核心競爭力且需深度整合現有系統"],
+    ans:2,
+    exp:"Buy（採購）適合：快速部署、需求通用、無特殊差異化要求、IT 資源有限。Build（自建）適合：高度客製化、有專屬資料作為護城河、AI 是核心競爭力、需深度系統整合。題目描述「快速部署且需求通用」= 採購的最佳場景。"
+  }
+];
+
+// ─── RENDER QUIZ ───
+function renderQuiz(data, containerId) {
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = data.map((q, qi) => `
+    <div class="q-card" id="qcard-${containerId}-${qi}">
+      <div class="q-head">
+        <div class="q-meta">
+          <span class="q-num">${q.num}</span>
+          <span class="q-badge qb-${q.badge}">${q.badge === 's1' ? '科目一' : '科目二'}</span>
+          ${q.hot ? '<span class="q-badge qb-hot">高頻</span>' : ''}
+          <span class="q-badge qb-src">${q.src}</span>
+        </div>
+        <div class="q-text">${q.q}</div>
+      </div>
+      <div class="q-opts" id="opts-${containerId}-${qi}">
+        ${q.opts.map((o, oi) => `
+          <div class="opt" id="opt-${containerId}-${qi}-${oi}" onclick="pickOpt('${containerId}',${qi},${oi})">
+            <span class="opt-letter">${['A','B','C','D'][oi]}</span>
+            <span>${o}</span>
+          </div>
+        `).join('')}
+      </div>
+      <div class="q-explain" id="exp-${containerId}-${qi}">
+        <div class="exp-label">✦ 解析</div>
+        <strong>答案：${['A','B','C','D'][q.ans]}</strong>。${q.exp}
+      </div>
+      <button class="ai-btn" id="aibtn-${containerId}-${qi}" onclick="askAI('${containerId}',${qi})">
+        ✦ 請 AI 深入解析這題
+      </button>
+      <div class="ai-resp" id="airesp-${containerId}-${qi}"></div>
+    </div>
+  `).join('');
+}
+
+function pickOpt(cid, qi, oi) {
+  const q = cid === 'quiz-s1-wrap' ? quizS1[qi] : quizS2[qi];
+  const cardId = `qcard-${cid}-${qi}`;
+  if (document.getElementById(cardId).classList.contains('answered')) return;
+  document.getElementById(cardId).classList.add('answered');
+
+  const opts = document.querySelectorAll(`#opts-${cid}-${qi} .opt`);
+  opts.forEach((o, i) => {
+    o.classList.add('disabled');
+    if (i === oi) o.classList.add(oi === q.ans ? 'correct' : 'wrong');
+    if (i === q.ans && oi !== q.ans) o.classList.add('reveal');
+  });
+
+  document.getElementById(`exp-${cid}-${qi}`).classList.add('show');
+  document.getElementById(`aibtn-${cid}-${qi}`).classList.add('show');
+  updateProgress();
+}
+
+// ─── AI Explain per question ───
+async function askAI(cid, qi) {
+  const q = cid === 'quiz-s1-wrap' ? quizS1[qi] : quizS2[qi];
+  const btn = document.getElementById(`aibtn-${cid}-${qi}`);
+  const resp = document.getElementById(`airesp-${cid}-${qi}`);
+  btn.disabled = true;
+  btn.textContent = '載入中...';
+  resp.classList.add('show');
+  resp.innerHTML = `<div class="ai-label">AI 深度解析</div><div class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div> 思考中...</div>`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `你是 iPAS AI 應用規劃師初級考試的備考教師，專門協助 HR 背景、有 AI 工具使用經驗的考生。
+用簡潔、白話的繁體中文解析考題（不超過 200 字），格式：
+1. 核心概念一句話說清楚
+2. 各選項為何對或錯（2-3 句）
+3. 記憶口訣或 HR 視角連結（1 句）
+不要用 markdown，直接輸出文字。`,
+        messages: [{
+          role: 'user',
+          content: `題目：${q.q}\n選項：${q.opts.map((o,i)=>['A','B','C','D'][i]+'. '+o).join('；')}\n正確答案：${['A','B','C','D'][q.ans]}\n\n請深入解析這題。`
+        }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.[0]?.text || '無法取得解析，請重試。';
+    resp.innerHTML = `<div class="ai-label">✦ AI 深度解析</div>${text.replace(/\n/g,'<br>')}`;
+    btn.style.display = 'none';
+  } catch(e) {
+    resp.innerHTML = `<div class="ai-label">⚠ 錯誤</div>AI 暫時無法回應，請稍後再試。`;
+    btn.disabled = false;
+    btn.textContent = '✦ 請 AI 深入解析這題';
+  }
+}
+
+// ─── AI CHAT ───
+let chatHistory = [];
+let qCount = 0;
+let sessionStart = Date.now();
+
+setInterval(() => {
+  const mins = Math.floor((Date.now() - sessionStart) / 60000);
+  document.getElementById('session-time').textContent = mins;
+}, 10000);
+
+function addMsg(role, text, loading = false) {
+  const wrap = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role === 'user' ? 'user-msg' : 'ai-msg'}`;
+  div.innerHTML = `<div class="msg-role">${role === 'user' ? '你' : 'AI 家教'}</div>
+    <div class="msg-bubble${loading ? ' loading' : ''}" id="${loading ? 'loading-bubble' : ''}">${text}</div>`;
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+  return div;
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+  document.getElementById('chat-send').disabled = true;
+  qCount++;
+  document.getElementById('q-count').textContent = qCount;
+  addMsg('user', msg);
+  chatHistory.push({ role: 'user', content: msg });
+  const loadDiv = addMsg('ai', '<div class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div> 思考中...</div>', true);
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `你是 iPAS AI 應用規劃師初級考試（8/15 考試，75 分鐘選擇題）的專屬備考 AI 家教。
+學員背景：HR 從業者，有實際 AI 工具使用經驗，非技術本科背景。
+考試科目：科目一（人工智慧基礎概論）、科目二（生成式 AI 應用與規劃）。
+
+教學原則：
+1. 用白話繁體中文，避免過度技術術語
+2. 出題時給出 A/B/C/D 四個選項，最後揭曉答案和解析
+3. 適時連結 HR 視角或日常 AI 工具使用經驗
+4. 回答簡潔，不超過 300 字
+5. 不用 markdown 符號，可用換行分段`,
+        messages: chatHistory
+      })
+    });
+    const data = await res.json();
+    const reply = data.content?.[0]?.text || '抱歉，暫時無法回應，請重試。';
+    loadDiv.remove();
+    addMsg('ai', reply.replace(/\n/g, '<br>'));
+    chatHistory.push({ role: 'assistant', content: reply });
+    if (chatHistory.length > 20) chatHistory = chatHistory.slice(-18);
+  } catch(e) {
+    loadDiv.remove();
+    addMsg('ai', '⚠ 連線問題，請重試。');
+  }
+  document.getElementById('chat-send').disabled = false;
+}
+
+function sendQuick(text) {
+  document.getElementById('chat-input').value = text;
+  sendChat();
+}
+
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+});
+
+// ─── PAGE NAV ───
+function goPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const map = {s1:0,s2:1,qt1:2,qt2:3,sim:4};
+  document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');
+}
+
+// ─── TOGGLE KNOWLEDGE ───
+function toggleK(id) {
+  const body = document.getElementById('body-' + id);
+  const arr  = document.getElementById('arr-' + id);
+  const isOpen = body.classList.toggle('open');
+  arr.classList.toggle('open', isOpen);
+  arr.textContent = isOpen ? '▼' : '▶';
+  if (isOpen) updateProgress();
+}
+
+// ─── PROGRESS ───
+let openedCards = new Set();
+function updateProgress() {
+  document.querySelectorAll('.k-body.open').forEach(b => openedCards.add(b.id));
+  document.querySelectorAll('.q-card.answered').forEach(c => openedCards.add(c.id));
+  const total = 9 + quizS1.length + quizS2.length; // 9 knowledge cards + quizzes
+  const pct = Math.min(100, Math.round((openedCards.size / total) * 100));
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('prog-bar').style.width = pct + '%';
+}
+
+// ─── INIT ───
+renderQuiz(quizS1, 'quiz-s1-wrap');
+renderQuiz(quizS2, 'quiz-s2-wrap');
+toggleK('kc1');
+</script>
+</body>
+</html>
