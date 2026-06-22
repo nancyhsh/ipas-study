@@ -736,6 +736,140 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
       <div class="c-row"><div class="c-dot"></div><div><b>邊緣 AI（Edge AI）</b>：在終端裝置（手機/IoT）推論，優點：低延遲、資料不傳雲端（隱私保護）；缺點：運算資源有限</div></div>
     </div>
   </div>
+
+  <!-- kc-A: 進階機器學習技術 -->
+  <div class="k-card" id="kcA">
+    <div class="k-header" onclick="toggleK('kcA')">
+      <div class="k-icon ic1">⚡</div>
+      <div class="k-meta">
+        <div class="k-name">進階 ML：集成學習、超參數與模型壓縮</div>
+        <div class="k-sub">114/115 年高頻考點 · 200 題多次出現</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kcA">▶</div>
+    </div>
+    <div class="k-body" id="body-kcA">
+      <div class="h-box blue">
+        <div class="h-label">⬥ 偏差-變異數權衡（Bias-Variance Tradeoff）</div>
+        <b>高偏差（High Bias）</b>= 欠擬合，模型太簡單，訓練和測試都差<br>
+        <b>高變異數（High Variance）</b>= 過擬合，模型太複雜，訓練好測試差<br>
+        增加複雜度 → 偏差↓、變異數↑（兩者無法同時最小化）
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ 集成學習：Bagging vs Boosting</div>
+        <b>Bagging（並行）</b>：多棵樹同時訓練，投票決定結果。代表：<b>隨機森林</b><br>
+        <b>Boosting（串行）</b>：後面的模型專注修正前一個的錯誤。代表：<b>XGBoost</b><br>
+        口訣：Bagging 並行大家一起；Boosting 串行互相補救
+      </div>
+      <table class="term-table" style="margin-top:.6rem">
+        <tr><th>超參數搜尋方法</th><th>說明</th><th>特點</th></tr>
+        <tr><td class="term-key">Grid Search</td><td>窮舉所有組合</td><td>穩定但慢</td></tr>
+        <tr><td class="term-key">Random Search</td><td>隨機採樣組合</td><td>較快，效果不錯</td></tr>
+        <tr><td class="term-key">Bayesian Optimization</td><td>根據過去結果智慧選下一個</td><td>最省資源、最聰明</td></tr>
+      </table>
+      <div class="h-box blue" style="margin-top:.6rem">
+        <div class="h-label">⬥ 模型壓縮四方法（邊緣部署必備）</div>
+        <b>剪枝（Pruning）</b>：移除不重要的連接/神經元，讓網路變瘦<br>
+        <b>量化（Quantization）</b>：降低數值精度（float32→int8），縮小模型大小<br>
+        <b>知識蒸餾（Knowledge Distillation）</b>：大模型（教師）把知識傳給小模型（學生）<br>
+        <b>低秩分解（Low-rank Factorization）</b>：用低秩矩陣近似原始權重矩陣
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ 自監督學習（Self-Supervised Learning）</div>
+        從資料本身自動生成訓練標籤，<b>不需要人工標註</b><br>
+        例：GPT 的「預測下一個詞」、BERT 的「填入被遮蔽的詞」<br>
+        → 大型語言模型能用海量未標註文字訓練的根本原因
+      </div>
+    </div>
+  </div>
+
+  <!-- kc-B: 進階資料處理與 NLP -->
+  <div class="k-card" id="kcB">
+    <div class="k-header" onclick="toggleK('kcB')">
+      <div class="k-icon ic1">📊</div>
+      <div class="k-meta">
+        <div class="k-name">進階資料處理、NLP 與降維技術</div>
+        <div class="k-sub">114/115 年陷阱題重點 · 涵蓋多個常考名詞</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kcB">▶</div>
+    </div>
+    <div class="k-body" id="body-kcB">
+      <div class="h-box blue">
+        <div class="h-label">⬥ 特殊特徵編碼</div>
+        <b>循環特徵（sin/cos encoding）</b>：星期幾、時間、月份等循環資料，用正弦/餘弦轉換保留循環鄰近關係（如週日和週一在向量空間中很近）<br>
+        <b>多類別（Multi-class）</b>：每個樣本只屬於一個類別（從多個選一）<br>
+        <b>多標籤（Multi-label）</b>：每個樣本可同時屬於多個類別（一篇文章可同時標「AI+醫療+倫理」）
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ 降維技術比較</div>
+        <b>PCA</b>：線性降維，找變異最大的方向，適合一般特徵壓縮<br>
+        <b>t-SNE</b>：非線性降維，專門用於資料<b>視覺化</b>，把高維資料壓成 2D/3D 圖，相似資料會聚在一起<br>
+        口訣：壓縮特徵用 PCA；畫出來看用 t-SNE
+      </div>
+      <table class="term-table" style="margin-top:.6rem">
+        <tr><th>NLP 基礎概念</th><th>說明</th></tr>
+        <tr><td class="term-key">Tokenization</td><td>把文字切成模型能讀的基本單位（詞/子詞/字元），NLP 第一步</td></tr>
+        <tr><td class="term-key">詞嵌入（Word Embedding）</td><td>把詞轉為數值向量，保留語意關係（「國王」-「男」+「女」≈「女王」）</td></tr>
+        <tr><td class="term-key">情感分析（Sentiment Analysis）</td><td>判斷文字的正/負/中性情感，用於品牌監控、客戶回饋分析</td></tr>
+        <tr><td class="term-key">NER 命名實體辨識</td><td>從文字中找出人名、地名、機構名、日期等特定實體</td></tr>
+      </table>
+      <div class="h-box orange" style="margin-top:.6rem">
+        <div class="h-label">⬥ 資料品質四維度（必背）</div>
+        <b>完整性</b>：資料有沒有缺失值<br>
+        <b>一致性</b>：不同來源的資料定義是否相同<br>
+        <b>準確性</b>：資料是否正確反映真實情況<br>
+        <b>時效性</b>：資料是否還是最新的<br>
+        口訣：完整一致，準確即時
+      </div>
+    </div>
+  </div>
+
+  <!-- kc-C: MLOps 與 AI 系統運維 -->
+  <div class="k-card" id="kcC">
+    <div class="k-header" onclick="toggleK('kcC')">
+      <div class="k-icon ic1">🔧</div>
+      <div class="k-meta">
+        <div class="k-name">MLOps、資料漂移與 AI 系統運維</div>
+        <div class="k-sub">115 年考題新增 · 中高頻考點</div>
+      </div>
+      <div class="k-tag tag-mid">中頻</div>
+      <div class="k-arrow" id="arr-kcC">▶</div>
+    </div>
+    <div class="k-body" id="body-kcC">
+      <div class="h-box blue">
+        <div class="h-label">⬥ MLOps 是什麼</div>
+        整合 ML 開發和 IT 運維的實踐，<b>自動化 ML 生命週期</b>（訓練→部署→監控→更新）<br>
+        HR 比喻：就像 HR 系統要定期更新員工資料、監控使用狀況、發現問題就修正——MLOps 讓 AI 模型也能這樣持續運作
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ 資料漂移 vs 概念漂移（高頻陷阱）</div>
+        <b>資料漂移（Data Drift）</b>：輸入資料的分布改變（疫情後消費者行為大變）→ 模型預測失準<br>
+        <b>概念漂移（Concept Drift）</b>：輸入和輸出的「關係」改變（以前加班=高績效，現在不一定）→ 更難偵測<br>
+        兩者都需要重新訓練模型，概念漂移更隱蔽
+      </div>
+      <table class="term-table" style="margin-top:.6rem">
+        <tr><th>MLOps 組件</th><th>功能</th></tr>
+        <tr><td class="term-key">資料管線（Data Pipeline）</td><td>自動化資料收集→清洗→特徵工程的整個流程</td></tr>
+        <tr><td class="term-key">特徵商店（Feature Store）</td><td>集中管理特徵定義，各團隊共用，避免重複計算</td></tr>
+        <tr><td class="term-key">模型版本控制</td><td>記錄每個版本的資料/代碼/超參數，出問題可回滾</td></tr>
+        <tr><td class="term-key">A/B 測試</td><td>真實環境中對比新舊模型，用業務指標決定採用哪個</td></tr>
+        <tr><td class="term-key">殘餘風險</td><td>採取所有緩解措施後仍存在的剩餘風險，不可能歸零</td></tr>
+      </table>
+      <div class="h-box blue" style="margin-top:.6rem">
+        <div class="h-label">⬥ 聯邦學習（Federated Learning）</div>
+        各機構（如不同醫院）在自己的伺服器本地訓練，只上傳<b>模型參數</b>（不是原始資料）到中央伺服器聚合<br>
+        → 解決醫療、金融等敏感資料「不能集中」的合規問題<br>
+        口訣：<b>資料不動，模型動</b>
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ 冷啟動問題（Cold Start）</div>
+        推薦系統中，<b>新用戶</b>或<b>新商品</b>因為沒有歷史互動資料，系統無法給出有效推薦<br>
+        解法：問用戶初始偏好、用熱門商品推薦、用內容特徵推薦
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <!-- ═══════════ 科目二知識 ═══════════ -->
@@ -871,6 +1005,92 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
       <div class="c-row"><div class="c-dot s2"></div><div><b>SynthID</b>：Google 開發的 AI 生成內容浮水印技術，用於標示 AI 圖片</div></div>
     </div>
   </div>
+
+  <!-- kc-E: AI 導入策略與組織管理 -->
+  <div class="k-card" id="kcE">
+    <div class="k-header" onclick="toggleK('kcE')">
+      <div class="k-icon ic2">🏢</div>
+      <div class="k-meta">
+        <div class="k-name">AI 導入策略、變革管理與組織文化</div>
+        <div class="k-sub">L12302 · HR 背景最有優勢的題型</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kcE">▶</div>
+    </div>
+    <div class="k-body" id="body-kcE">
+      <div class="h-box green">
+        <div class="h-label">⬥ HR 視角：AI 導入失敗的真正原因</div>
+        考試題目問「AI 導入失敗最主要原因」→ 答案永遠是<b>人的問題</b>，不是技術問題<br>
+        ✅ <b>組織文化阻力</b>、<b>員工缺乏培訓</b>、<b>資料品質不足</b><br>
+        ❌ 不是「技術不夠先進」或「預算不足」（這些是次要因素）
+      </div>
+      <div class="h-box green" style="margin-top:.5rem">
+        <div class="h-label">⬥ 變革管理（Change Management）核心策略</div>
+        <b>Quick Wins（快速贏得）</b>：先在最容易成功的場景取得具體成效，建立員工信心，再逐步擴大<br>
+        <b>分層培訓</b>：主管學 AI 策略與治理；業務人員學工具與 Prompt；技術人員學開發與部署<br>
+        <b>充分溝通</b>：說明 AI 是「輔助」而非「取代」，降低員工焦慮<br>
+        <b>用戶接受度</b>是 AI ROI 的乘數：再好的工具沒人用 = 零效益
+      </div>
+      <table class="term-table" style="margin-top:.6rem">
+        <tr><th>AI ROI 類型</th><th>範例</th><th>特點</th></tr>
+        <tr><td class="term-key s2">直接效益</td><td>每月節省 40 小時人工、錯誤率降低 30%</td><td>可量化，容易說服管理層</td></tr>
+        <tr><td class="term-key s2">間接效益</td><td>員工滿意度↑、創新能力↑、離職率↓</td><td>難量化，但長期影響更深遠</td></tr>
+      </table>
+      <div class="h-box orange" style="margin-top:.6rem">
+        <div class="h-label">⬥ AI 治理框架與倫理委員會</div>
+        <b>AI 使用政策</b>應包含：允許/禁止使用場景、資料安全限制（哪些不能輸入 AI）、輸出審核要求、版權聲明、培訓要求<br>
+        <b>AI 倫理委員會</b>：跨部門組成（法務/HR/IT/業務），事前審查高風險 AI 應用，不是事後救火<br>
+        <b>AI 路線圖</b>：優先順序 + 資源規劃 + 人才培育 + 資料治理 + 風險管控，是跨部門策略文件
+      </div>
+      <div class="h-box green" style="margin-top:.5rem">
+        <div class="h-label">⬥ HR 高風險 AI 應用（需人工審核）</div>
+        <b>高風險</b>（必須人類把關）：完全自動化決定升遷/解雇/招募篩選<br>
+        <b>低風險</b>（可自動採納）：撰寫職缺說明、生成培訓材料、電子郵件分類<br>
+        口訣：影響人的命運就要人審核；例行作業可讓 AI 自動
+      </div>
+    </div>
+  </div>
+
+  <!-- kc-F: 生成式 AI 進階應用 -->
+  <div class="k-card" id="kcF">
+    <div class="k-header" onclick="toggleK('kcF')">
+      <div class="k-icon ic2">🔬</div>
+      <div class="k-meta">
+        <div class="k-name">生成式 AI 進階：向量資料庫、System Prompt 與 Multi-Agent</div>
+        <div class="k-sub">115 年新增高頻考點 · RAG 延伸知識</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kcF">▶</div>
+    </div>
+    <div class="k-body" id="body-kcF">
+      <div class="h-box orange">
+        <div class="h-label">⬥ 向量資料庫（Vector Database）在 RAG 中的角色</div>
+        RAG 流程：文件切片 → Embedding 模型轉為向量 → 存入<b>向量資料庫</b> → 用戶提問也轉向量 → 語意搜尋找最相關片段 → 送給 LLM 生成答案<br>
+        <b>語意搜尋 vs 關鍵字搜尋</b>：語意搜尋理解「意思」，查「薪資」也能找到「薪酬/報酬/待遇」的文件；關鍵字搜尋只找字面完全符合的
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ RAG 檢索品質優化</div>
+        <b>分塊策略（Chunking）</b>：文件切太大=冗餘，切太小=語境不足，要找到平衡點<br>
+        <b>更好的 Embedding 模型</b>：語意理解更準確，找到的片段更相關<br>
+        <b>查詢增強（Query Enhancement）</b>：把用戶問題改寫得更精準，匹配文件用語<br>
+        → 這些改善比換更大的 LLM 更有效也更省錢
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ System Prompt（系統提示）</div>
+        對話開始前設定 AI 的<b>角色、規則、格式、限制</b>，對整個對話持續有效<br>
+        HR 比喻：就像員工到職前的「工作說明書」，設定好之後員工知道自己的職責和不能做的事<br>
+        企業用途：設定客服 AI 的回答範圍、語氣、禁止話題
+      </div>
+      <table class="term-table" style="margin-top:.6rem">
+        <tr><th>概念</th><th>說明</th></tr>
+        <tr><td class="term-key s2">Multi-Agent 系統</td><td>多個 AI Agent 分工協作（一個搜尋、一個分析、一個寫作），完成單一 Agent 做不到的複雜任務</td></tr>
+        <tr><td class="term-key s2">幻覺的根本原因</td><td>LLM 是「預測下一個最可能的詞」的統計模型，不是查詢事實資料庫，不確定時會「猜」</td></tr>
+        <tr><td class="term-key s2">持續學習 / 災難性遺忘</td><td>模型學新任務時覆蓋舊任務的參數，導致「忘記」舊能力</td></tr>
+        <tr><td class="term-key s2">差分隱私</td><td>在統計結果加入數學校準的雜訊，讓個別資料無法被識別，同時保留整體統計有用性</td></tr>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <!-- ═══════════ 科目一考古題 ═══════════ -->
@@ -1234,7 +1454,7 @@ let openedCards = new Set();
 function updateProgress() {
   document.querySelectorAll('.k-body.open').forEach(b => openedCards.add(b.id));
   document.querySelectorAll('.q-card.answered').forEach(c => openedCards.add(c.id));
-  const total = 9 + quizS1.length + quizS2.length; // 9 knowledge cards + quizzes
+  const total = 14 + quizS1.length + quizS2.length; // 14 knowledge cards + quizzes
   const pct = Math.min(100, Math.round((openedCards.size / total) * 100));
   document.getElementById('prog-pct').textContent = pct + '%';
   document.getElementById('prog-bar').style.width = pct + '%';
