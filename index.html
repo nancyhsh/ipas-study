@@ -539,8 +539,8 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
 <nav class="nav">
   <div class="nav-btn active"    onclick="goPage('s1')">📗 科目一知識</div>
   <div class="nav-btn s2"        onclick="goPage('s2')">📙 科目二知識</div>
-  <div class="nav-btn qt1"       onclick="goPage('qt1')">📝 科目一考古題</div>
-  <div class="nav-btn qt2"       onclick="goPage('qt2')">📝 科目二考古題</div>
+  <div class="nav-btn qt1"       onclick="goPage('qt1')">🎯 科目一模擬出題</div>
+  <div class="nav-btn qt2"       onclick="goPage('qt2')">🎯 科目二模擬出題</div>
   <div class="nav-btn sim"       onclick="goPage('sim')">🤖 AI 家教問答</div>
 </nav>
 
@@ -624,6 +624,18 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
         <tr><td class="term-key">問責性</td><td>明確 AI 決策的責任歸屬</td></tr>
         <tr><td class="term-key">隱私</td><td>保護個人資料，遵守個資法 / GDPR</td></tr>
       </table>
+      <div class="h-box orange" style="margin-top:.6rem">
+        <div class="h-label">⬥ AI 黑箱 → 問責性問題（115-2 考點）</div>
+        AI 系統判斷過程不透明，發生錯誤時<b>無法釐清責任歸屬</b>（開發商？部署企業？使用者？）<br>
+        HR 比喻：AI 做了一個人事決定，但沒人能解釋為什麼——出了問題找不到人負責<br>
+        解法：事前建立責任鏈（誰開發、誰部署、誰使用各負什麼責任）+ 選用可解釋 AI
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ AI 對齊問題（Alignment Problem）</div>
+        確保 AI 追求的目標符合人類<b>真正的意圖</b>，而非字面上設定的目標<br>
+        例：設定「最大化用戶參與時間」→ AI 學會推送煽動性內容（達成目標，但違背初衷）<br>
+        口訣：<b>AI做的是「你真正要的」，不是「你字面說的」</b>——兩者之間的落差就是對齊問題
+      </div>
     </div>
   </div>
 
@@ -707,7 +719,36 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
         <div class="h-label">⬥ 可解釋 AI（XAI）對象選擇</div>
         <b>SHAP</b>：向工程師解釋，找問題根源（特徵重要性數值）<br>
         <b>反事實解釋</b>：向客戶解釋「你要改什麼才能過關」（如：貸款被拒的改善建議）<br>
-        <b>Saliency Map</b>：影像模型，顯示模型「看哪裡」做決策
+        <b>Saliency Map</b>：影像模型，顯示模型「看哪裡」做決策<br>
+        <b>PDP（部分依賴圖）</b>：呈現某特徵對整體預測的平均影響趨勢（全局）；無法解釋單一案例，那要用 LIME
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ 混淆矩陣：FP vs FN 代價判斷（高頻情境題）</div>
+        <b>False Positive（假陽性）</b>：預測有問題，實際沒有 → 代價：多做一次檢查<br>
+        <b>False Negative（假陰性）</b>：預測沒問題，實際有 → 代價：<b>錯過真正的問題</b><br>
+        <br>
+        醫療癌症篩檢 → FN 代價最高（漏掉真正的癌症患者）→ 最大化 <b>Recall（召回率）</b><br>
+        詐欺偵測 → FP 代價高（騷擾正常客戶）→ 最大化 <b>Precision（精確率）</b><br>
+        口訣：<b>漏報傷人命用Recall；誤報傷體驗用Precision</b>
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ 學習曲線（Learning Curve）診斷</div>
+        X軸=訓練資料量，Y軸=訓練/驗證誤差<br>
+        <b>兩條線都高（誤差大）</b> → 高偏差（欠擬合）→ 加更多資料沒用，要讓模型更複雜<br>
+        <b>訓練低、驗證高（差距大）</b> → 高變異數（過擬合）→ 加更多資料可能有幫助<br>
+        HR 比喻：員工體檢報告——同時有多項異常才要換治療方向，不能只看一個指標
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ Q-Learning（強化學習核心概念）</div>
+        <b>Q值</b>：在狀態 s 下採取行動 a，預計能獲得的<b>長期累積獎勵</b><br>
+        Agent 的目標：學習每個（狀態, 行動）組合的 Q 值，每次選 Q 值最高的行動<br>
+        HR 比喻：每個「處境+決策」組合，都有一個「長期績效分數」，AI 學會選分數最高的那個
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ mAP（物件偵測）/ BLEU（文字生成）評估指標</div>
+        <b>mAP（mean Average Precision）</b>：物件偵測專用，同時衡量類別辨識準確度 + 邊界框定位準確性；YOLO 等模型的標準指標<br>
+        <b>BLEU 分數</b>：文字生成/翻譯專用，計算生成文字與標準答案的 n-gram 重疊程度；高分不代表語意正確，只代表用詞相似<br>
+        口訣：<b>看圖找物件用mAP；AI寫文章/翻譯用BLEU</b>
       </div>
     </div>
   </div>
@@ -734,6 +775,30 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
       <div class="c-row" style="margin-top:.6rem"><div class="c-dot"></div><div><b>激活函數</b>：ReLU（最常用，計算快）、Sigmoid（輸出 0~1，用於二元分類輸出層）、tanh（輸出 -1~1）</div></div>
       <div class="c-row"><div class="c-dot"></div><div><b>遷移學習（Transfer Learning）</b>：使用已在大型資料集訓練好的模型，在新任務上微調，節省時間和資源</div></div>
       <div class="c-row"><div class="c-dot"></div><div><b>邊緣 AI（Edge AI）</b>：在終端裝置（手機/IoT）推論，優點：低延遲、資料不傳雲端（隱私保護）；缺點：運算資源有限</div></div>
+      <div class="h-box blue" style="margin-top:.65rem">
+        <div class="h-label">⬥ ResNet 殘差網路（Residual Network）</div>
+        引入<b>跳躍連接（Skip Connection）</b>：把某層輸出直接加到幾層後的輸出，讓梯度走「捷徑」不需通過每一層<br>
+        解決深層網路訓練困難（梯度消失）問題，讓 100+ 層超深網路成為可能<br>
+        HR 比喻：不用逐級彙報，可以直接跳過中間主管把資訊送到最高層——資訊不會在層層傳遞中消失
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ Transformer 位置編碼（Positional Encoding）</div>
+        Self-Attention 本身對詞的位置不敏感（不管順序，計算結果相同）<br>
+        位置編碼為每個 Token 加入「我在第幾個位置」的資訊，讓模型理解詞序<br>
+        口訣：<b>沒有位置編碼，Transformer 不知道「我愛你」和「你愛我」有什麼差別</b>
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ 多模態學習 / 自編碼器 / GNN</div>
+        <b>多模態學習</b>：AI 同時處理文字+圖像+音訊（如 GPT-4o 看圖說話）；比單一資料類型更接近人類理解方式<br>
+        <b>自編碼器（Autoencoder）</b>：學習資料的壓縮表示，主要用於<b>無監督異常偵測</b>（學習正常資料→重建誤差大 = 異常）<br>
+        <b>圖神經網路（GNN）</b>：處理具複雜關係結構的資料（社交網路、分子結構、知識圖譜），傳統 CNN/RNN 無法直接處理這類非規則結構
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ 語音識別系統架構</div>
+        <b>聲學模型（Acoustic Model）</b>：把語音的聲學特徵（聲音）對應到音素/字——負責「聽聲辨字」<br>
+        <b>語言模型（Language Model）</b>：根據語言規律確認字組成合理的句子——負責「字成句子」<br>
+        兩者協同工作才能準確識別語音；聲學模型是語音識別的核心環節
+      </div>
     </div>
   </div>
 
@@ -779,6 +844,18 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
         從資料本身自動生成訓練標籤，<b>不需要人工標註</b><br>
         例：GPT 的「預測下一個詞」、BERT 的「填入被遮蔽的詞」<br>
         → 大型語言模型能用海量未標註文字訓練的根本原因
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ 自編碼器（Autoencoder）異常偵測</div>
+        訓練方式：只用正常資料訓練，讓模型學會「壓縮→重建正常資料」<br>
+        偵測方式：新資料送入後，<b>重建誤差大 = 異常</b>（模型不熟悉這種資料，重建失敗）<br>
+        適合場景：無法預先標記所有異常類型（如工廠設備故障、網路入侵）<br>
+        HR 比喻：新員工做了一件很不像這個部門風格的事，就是異常信號
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ PDP（部分依賴圖）的限制 / CRF 鑑別式模型</div>
+        <b>PDP 限制</b>：只呈現整體趨勢（全局），無法解釋<b>單一案例</b>的原因——要解釋某筆資料為何被這樣預測，要用 LIME（局部）<br>
+        <b>CRF（條件隨機場）</b>：鑑別式模型，直接學習「給定輸入序列→最可能的標籤序列」，常用於 NER（命名實體辨識）等序列標注任務；與生成式模型相對，不生成資料只做判斷
       </div>
     </div>
   </div>
@@ -866,6 +943,18 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
         <div class="h-label">⬥ 冷啟動問題（Cold Start）</div>
         推薦系統中，<b>新用戶</b>或<b>新商品</b>因為沒有歷史互動資料，系統無法給出有效推薦<br>
         解法：問用戶初始偏好、用熱門商品推薦、用內容特徵推薦
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ 密度估計異常偵測</div>
+        建立資料分布模型：密度高的區域 = 正常；密度低的區域 = 異常<br>
+        無監督式，不需要異常標籤，適合信用卡詐欺、設備故障等場景<br>
+        口訣：<b>人跡罕至的地方就是異常</b>
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ 對抗式攻擊（Adversarial Attack）</div>
+        在圖片上加入人眼看不出的微小雜訊，AI 就把熊貓認成長臂猿<br>
+        對自動駕駛等安全關鍵應用是嚴重威脅；防禦方法：對抗式訓練、輸入過濾<br>
+        口訣：<b>人看不出來，AI卻被騙了</b>
       </div>
     </div>
   </div>
@@ -982,6 +1071,32 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
         ✅ <b>組織文化阻力</b>、<b>缺乏員工培訓</b>、<b>資料品質不足</b><br>
         ❌ 不是「技術不夠先進」或「預算不足」（這些是次因）
       </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ 廠商鎖定（Vendor Lock-in）風險（115-2 新考點）</div>
+        使用封閉式平台，資料以<b>專有格式</b>儲存、匯出受限、無標準 API → 未來想換系統卻被資料「綁住」<br>
+        HR 比喻：就像員工所有人脈都在某個平台，離職後帶不走——換系統的成本極高<br>
+        評估平台時應優先確認：開放 API、標準格式匯出、無廠商綁定條款
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ Webhook vs 輪詢（Polling）（115-2 新考點）</div>
+        <b>輪詢</b>：系統定時主動去問「有新資料嗎？」→ 浪費資源，可能有延遲<br>
+        <b>Webhook</b>：事先登記，有事件發生時系統主動推送通知 → 即時、省資源<br>
+        HR 比喻：輪詢=每十分鐘打電話問「錄取了嗎？」；Webhook=錄取時 HR 自動傳訊通知你<br>
+        口訣：<b>Webhook = 有事叫我，Polling = 我定時去問</b>
+      </div>
+      <div class="h-box blue" style="margin-top:.5rem">
+        <div class="h-label">⬥ No-Code 工作流程核心元件</div>
+        <b>條件分支（Branching/Router）</b>：依多個條件判斷流程走向（如退費金額 &gt;1萬 AND 退費意圖 → 通知主管）<br>
+        <b>迭代/迴圈（Iterator）</b>：逐筆處理多筆資料<br>
+        <b>陣列聚合器（Aggregator）</b>：將多筆資料整合後再處理<br>
+        <b>多輪對話記憶</b>：LLM 本身沒有記憶，每次 API 請求必須把<b>完整對話歷史打包進 Context</b> 一起送出
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ Vibe Coding vs Low-Code（115-2 新考點）</div>
+        <b>Vibe Coding</b>：用自然語言指示 AI 生成程式碼，彈性高，但品質依賴 Prompt 精準度，需要開發者審閱<br>
+        <b>Low-Code</b>：預設元件拖拉組合，快速穩定，但功能上限受平台支援範疇限制<br>
+        兩者都不是「完全不需人工」——Vibe Coding 需審閱程式碼，Low-Code 需設定元件邏輯
+      </div>
     </div>
   </div>
 
@@ -1083,26 +1198,109 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
       </div>
       <table class="term-table" style="margin-top:.6rem">
         <tr><th>概念</th><th>說明</th></tr>
-        <tr><td class="term-key s2">Multi-Agent 系統</td><td>多個 AI Agent 分工協作（一個搜尋、一個分析、一個寫作），完成單一 Agent 做不到的複雜任務</td></tr>
+        <tr><td class="term-key s2">Multi-Agent 系統</td><td>多個 AI Agent 分工協作（一個搜尋、一個分析、一個寫作），完成單一 Agent 做不到的複雜任務；最大挑戰：各 Agent 的 Context 同步，避免基於不同資訊做出矛盾決策</td></tr>
         <tr><td class="term-key s2">幻覺的根本原因</td><td>LLM 是「預測下一個最可能的詞」的統計模型，不是查詢事實資料庫，不確定時會「猜」</td></tr>
         <tr><td class="term-key s2">持續學習 / 災難性遺忘</td><td>模型學新任務時覆蓋舊任務的參數，導致「忘記」舊能力</td></tr>
         <tr><td class="term-key s2">差分隱私</td><td>在統計結果加入數學校準的雜訊，讓個別資料無法被識別，同時保留整體統計有用性</td></tr>
+        <tr><td class="term-key s2">CLIP 模型</td><td>用圖像與文字配對資料訓練，學習圖文語意對應；用<b>餘弦相似度</b>衡量文字和圖片向量的相似程度，是「文字搜圖」的核心技術</td></tr>
+        <tr><td class="term-key s2">擴散模型（Diffusion Model）</td><td>從純噪聲開始，透過多步驟「去噪」逐步生成圖像/影片；Sora 等影片生成模型的核心機制，與 GAN「一次生成」不同</td></tr>
+        <tr><td class="term-key s2">訓練資料記憶洩漏</td><td>模型若以含真實個資的資料訓練，可能在特定對話情境下「回想」並輸出敏感資訊；訓練資料必須嚴格去識別化</td></tr>
+        <tr><td class="term-key s2">間接 Prompt Injection</td><td>攻擊者將惡意指令藏在模型會讀取的外部內容（網頁、文件）中，LLM 處理時被間接控制；直接注入=用戶輸入，間接注入=外部資料</td></tr>
       </table>
+      <div class="h-box orange" style="margin-top:.6rem">
+        <div class="h-label">⬥ MCP（Model Context Protocol）（115-2 新考點）</div>
+        讓模型在<b>推理時即時存取外部文件/資料庫</b>的協定，不需重新訓練<br>
+        使用場景：AI Coding 助手讀取最新 API 文件、企業知識助理存取最新規範<br>
+        與 RAG 的差異：RAG 是預先建立向量庫再檢索，MCP 是推理時直接連接外部工具
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ Extended Thinking（延伸推理）Token 預算</div>
+        推理型 LLM 在給出答案前可進行深度思考，思考過程消耗額外 Token（計費）<br>
+        <b>動態 Token 預算</b>：簡單問題少給 Token（省成本），複雜問題多給 Token（保品質）<br>
+        Temperature 控制「輸出多樣性」；Token 預算控制「思考深度」——兩者不同
+      </div>
+    </div>
+  </div>
+
+
+  <!-- kc-G: Agentic AI 全攻略 -->
+  <div class="k-card" id="kcG">
+    <div class="k-header" onclick="toggleK('kcG')">
+      <div class="k-icon ic2">🤖</div>
+      <div class="k-meta">
+        <div class="k-name">Agentic AI：ReAct、Function Calling 與 No-Code 工具整合</div>
+        <div class="k-sub">115-2 大量新增考點 · 科目二必考</div>
+      </div>
+      <div class="k-tag tag-high">必考</div>
+      <div class="k-arrow" id="arr-kcG">▶</div>
+    </div>
+    <div class="k-body" id="body-kcG">
+      <div class="h-box orange">
+        <div class="h-label">⬥ AI Agent vs 傳統自動化的核心差異</div>
+        <b>傳統自動化</b>：照固定劇本執行，遇到意外就停擺<br>
+        <b>AI Agent</b>：能<b>動態規劃步驟、調用工具、根據中間結果調整策略</b><br>
+        HR 比喻：傳統自動化=按 SOP 執行的助理；AI Agent=能自主判斷、遇到問題自己想辦法的專員<br>
+        Agent 四層架構：<b>感知</b>（輸入）→ <b>記憶</b>（Context）→ <b>規劃</b>（Task Planner）→ <b>行動</b>（Tool Executor）
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ ReAct 架構（Reason and Act）</div>
+        讓 AI 在執行任務時進行「推理→行動→觀察→再推理」的動態循環<br>
+        <b>適合場景</b>：任務步驟不確定、需根據中間結果調整方向（如：分析融資狀況，AI 自行判斷資訊是否足夠）<br>
+        <b>不適合場景</b>：固定流程任務（批次翻譯 PDF、依規則判斷退貨資格）→ 不需要 ReAct<br>
+        口訣：<b>動態決策用 ReAct；固定流程不需要</b>
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ Function Calling（函數呼叫）</div>
+        LLM 理解用戶的自然語言需求，自動轉換為<b>可執行的 API 呼叫參數</b><br>
+        例：用語音說「幫我訂明天下午三點的外送」→ LLM 解析意圖 → 自動填入 API 所需參數（時間、品項）→ 呼叫外送 API<br>
+        這是 AI 系統連接外部工具（地圖、資料庫、ERP）的關鍵技術
+      </div>
+      <table class="term-table" style="margin-top:.6rem">
+        <tr><th>概念</th><th>說明</th></tr>
+        <tr><td class="term-key s2">Task Planner（任務規劃器）</td><td>Agentic AI 的核心元件，負責把高層目標拆解為子任務並決定執行順序</td></tr>
+        <tr><td class="term-key s2">Tool Executor（工具執行器）</td><td>根據 Task Planner 的指示執行具體操作（搜尋、計算、寫檔案）</td></tr>
+        <tr><td class="term-key s2">Solution Graph</td><td>把問題解決步驟表示為有向無環圖（DAG），節點=子任務，連結=依賴關係；LLM 能推理建構此圖作為行動計畫</td></tr>
+        <tr><td class="term-key s2">Agentic Coding（如 Claude Code）</td><td>不只是「建議程式碼」，而是能直接讀寫專案檔案、執行終端機指令、提交 commit；生成的程式碼仍需人工審查</td></tr>
+        <tr><td class="term-key s2">Memory as Context（MAC）</td><td>把長期記憶整理後加入每次對話的 Context，讓模型能「記住」過去的重要資訊；Titans 架構採用此機制</td></tr>
+        <tr><td class="term-key s2">RFT（強化微調）vs SFT</td><td>SFT（監督式微調）需大量標籤資料；RFT 透過獎懲機制引導，適合標籤稀缺場景（如特定醫療任務）</td></tr>
+        <tr><td class="term-key s2">GRPO</td><td>強化學習優化方法，特別適合有明確對/錯答案的推理任務（數學、邏輯謎題）；DeepSeek-R1 採用類似方法</td></tr>
+        <tr><td class="term-key s2">CoT 衍生技術</td><td>ReAct、Tree-of-Thought、Self-consistency 都是 CoT 的延伸；Zero-shot Learning 是另一個獨立概念，不是 CoT 衍生</td></tr>
+      </table>
+      <div class="h-box blue" style="margin-top:.6rem">
+        <div class="h-label">⬥ Prompt Injection 多層防禦（115-2 考點）</div>
+        單一防線容易被繞過，需採用<b>多層防禦（Defense in Depth）</b>：<br>
+        ① 輸入驗證（過濾可疑指令）<br>
+        ② 輸出監控（偵測不當內容）<br>
+        ③ System Prompt 保護（嚴格限制模型行為範疇）<br>
+        ④ 最小權限原則（AI 只能存取它需要的資源）<br>
+        直接注入=用戶輸入嵌入惡意指令；<b>間接注入=惡意指令藏在外部文件/網頁</b>
+      </div>
+      <div class="h-box green" style="margin-top:.5rem">
+        <div class="h-label">⬥ HR 視角：Agentic AI 的高/低風險場景</div>
+        ✅ <b>可讓 AI 自主執行</b>：低風險例行任務（電郵分類、資料彙整、初步排程）<br>
+        ⚠️ <b>需人類最終確認</b>：高風險決策（人事決定、合約簽署、資金調撥）<br>
+        口訣：影響人的命運就要人審核；例行作業讓 AI 自動
+      </div>
+      <div class="h-box orange" style="margin-top:.5rem">
+        <div class="h-label">⬥ AutoSkill 框架 / MMLU 評測基準</div>
+        <b>AutoSkill</b>：從 AI 與環境的重複互動中，自動提取可重複使用的「技能模組」；像是 AI 版的「建立 SOP」，讓 AI 積累並複用技能<br>
+        <b>MMLU（多領域多任務語言理解）</b>：跨法律、醫學、數學、歷史等多學科評測 LLM 的泛化推理能力，測的是「舉一反三」，不是死記硬背
+      </div>
     </div>
   </div>
 
 </div>
 
-<!-- ═══════════ 科目一考古題 ═══════════ -->
+<!-- ═══════════ 科目一模擬出題 ═══════════ -->
 <div class="page" id="page-qt1">
-  <div class="sec-title">▸ 科目一考古題｜官方樣題 + 公告試題精選</div>
-  <div id="quiz-s1-wrap"></div>
+  <div class="sec-title">▸ 科目一模擬出題｜AI 即時生成，每次不同</div>
+  <div id="gen-ui-s1"></div>
 </div>
 
-<!-- ═══════════ 科目二考古題 ═══════════ -->
+<!-- ═══════════ 科目二模擬出題 ═══════════ -->
 <div class="page" id="page-qt2">
-  <div class="sec-title">▸ 科目二考古題｜官方樣題 + 公告試題精選</div>
-  <div id="quiz-s2-wrap"></div>
+  <div class="sec-title">▸ 科目二模擬出題｜AI 即時生成，每次不同</div>
+  <div id="gen-ui-s2"></div>
 </div>
 
 <!-- ═══════════ AI 家教 ═══════════ -->
@@ -1144,217 +1342,210 @@ body { background:var(--bg); color:var(--ink); font-family:var(--sans); font-siz
 </div>
 
 <script>
-// ─── DATA ───
-const quizS1 = [
-  {
-    num:"Q1", src:"樣題 114.04", badge:"s1",
-    q:"下列何者最適合訓練電腦下圍棋、自動駕駛等動態重複互動的問題？",
-    opts:["監督式學習","非監督式學習","半監督式學習","強化學習"],
-    ans:3,
-    exp:"強化學習（Reinforcement Learning）透過「試誤」和「獎懲機制」讓 AI 學習最佳策略，特別適合需要連續動態決策的任務（遊戲、自動駕駛、機器人）。監督式是有標籤的分類/迴歸；非監督式是分群；半監督是少量有標籤加無標籤。"
-  },
-  {
-    num:"Q2", src:"樣題 114.04", badge:"s1",
-    q:"深度學習模型中，下列哪一項通常用來降低過擬合（Overfitting）問題？",
-    opts:["增加訓練數據量","增加模型的複雜度","增加學習率","增加正則化項（Regularization）"],
-    ans:3,
-    exp:"正則化（L1/L2）對損失函數加入懲罰項，限制模型參數大小，避免模型過度擬合訓練資料細節。增加模型複雜度反而會加重過擬合。增加訓練數據多樣性（非單純增加量）有幫助，但不是直接方法。"
-  },
-  {
-    num:"Q3", src:"樣題 114.04", badge:"s1",
-    q:"大數據時代資料的特性，下列何者「不是」？",
-    opts:["資料量大（Volume）","資料變動速度快（Velocity）","資料多樣性（Variety）","資料存儲位置固定"],
-    ans:3,
-    exp:"大數據的 5V 特性：Volume（量大）、Velocity（速度快）、Variety（多樣性）、Veracity（真實性）、Value（價值）。「存儲位置固定」不是大數據特性，大數據通常分散存儲在多個節點。"
-  },
-  {
-    num:"Q4", src:"115 第一次公告", badge:"s1", hot:true,
-    q:"某紡織廠導入 AI 布料瑕疵檢測系統，每日資料從 2GB 增長至 50GB，需在布料離線前 3 秒內完成判定，尖峰時段出現判定延遲。若要優先改善此問題，下列哪種做法最適合？",
-    opts:["擴充資料儲存容量以因應長期累積","強化即時資料處理與推論計算資源配置","重新訓練更複雜的深度學習模型","建立離線批次處理流程取代即時判定"],
-    ans:1,
-    exp:"問題核心是「尖峰時段延遲」（即時性問題），不是儲存問題。應優先強化推論端的計算資源（GPU 加速、邊緣 AI 部署），降低推論延遲。重新訓練複雜模型會讓推論更慢；離線批次處理無法滿足「3 秒內完成」的即時需求。"
-  },
-  {
-    num:"Q5", src:"114 第四次公告", badge:"s1",
-    q:"某公司欲建立員工離職風險預測模型，資料集包含績效分數（1-5）、平均每月加班時數（0-80）、年齡（20-65）等特徵。各特徵數值範圍差異極大，為提升梯度下降的收斂效率，下列哪種特徵工程方法最適合？",
-    opts:["One-hot Encoding","Min-Max 正規化（Normalization）","主成分分析（PCA）降維","刪除數值範圍最大的特徵"],
-    ans:1,
-    exp:"數值範圍差異極大時，梯度下降會因各特徵量級不同而收斂緩慢或偏斜。Min-Max 正規化將所有特徵壓縮至 [0,1] 區間，使各特徵對模型的影響量級一致。One-hot 用於類別型特徵；PCA 用於降維；刪除特徵會損失資訊。"
-  },
-  {
-    num:"Q6", src:"115 第一次公告", badge:"s1", hot:true,
-    q:"資料科學團隊在模型訓練前需對數值特徵標準化。為確保模型評估結果真實並避免資料洩漏，下列做法何者最正確？",
-    opts:["先用全部資料計算均值標準差，再分割訓練測試集","訓練集與測試集分別計算各自的標準化參數","先分割訓練集與測試集，只用訓練集計算參數再套用到測試集","只對訓練資料標準化，測試資料保持原始值"],
-    ans:2,
-    exp:"防止資料洩漏的鐵則：「先切後算，只用訓練」。正確做法：①先分割訓練/測試集 → ②只用訓練集計算均值和標準差 → ③將同樣的參數套用到測試集。若先計算再分割，測試集資訊已「洩漏」到訓練過程中，造成評估結果過於樂觀。"
-  },
-  {
-    num:"Q7", src:"115 第一次公告", badge:"s1", hot:true,
-    q:"關於 Human-AI 協作模式，「AI 系統自動執行決策，人類在旁監督並可隨時介入修正」，這符合哪種模式？",
-    opts:["Human-in-the-loop","Human-on-the-loop","Human-over-the-loop","Full Autonomy（完全自動化）"],
-    ans:1,
-    exp:"三種模式對比：Human-in-the-loop（人在迴圈內）= 每步都需人工審批；Human-on-the-loop（人在迴圈上）= AI 自動執行，人旁監督可隨時介入 ← 本題；Human-over-the-loop（人在迴圈外）= 人設定規則，AI 全自動，人進行宏觀管控。"
-  },
-  {
-    num:"Q8", src:"樣題/阿摩", badge:"s1",
-    q:"K-Means 聚類算法中，K 代表什麼？",
-    opts:["資料集中特徵的數量","資料集中樣本的總數","所需劃分的群組數量","演算法的迭代次數"],
-    ans:2,
-    exp:"K-Means 中的 K 就是「想要分成幾群」的數字，需要由使用者預先指定。這是 K-Means 的主要缺點之一——需要事先知道分群數量 K。"
-  }
-];
+// ─── 模擬出題器設定 ───
+const GEN_TOPICS = {
+  s1: [
+    { id:'all', label:'🎲 混合出題（全科目一）' },
+    { id:'concept', label:'AI 概念與學習方式' },
+    { id:'ethics', label:'AI 倫理、法規與治理' },
+    { id:'data', label:'資料處理與特徵工程' },
+    { id:'model', label:'機器學習模型與評估' },
+    { id:'dl', label:'深度學習與神經網路' },
+    { id:'adv', label:'進階 ML：集成、壓縮、MLOps' },
+    { id:'nlp', label:'NLP 與降維技術' },
+  ],
+  s2: [
+    { id:'all', label:'🎲 混合出題（全科目二）' },
+    { id:'genai', label:'生成式 AI 原理與 LLM' },
+    { id:'prompt', label:'Prompt 工程與 RAG' },
+    { id:'nocode', label:'No-Code / Low-Code 應用' },
+    { id:'deploy', label:'AI 導入策略與變革管理' },
+    { id:'safety', label:'AI 安全、版權與合規' },
+    { id:'agent', label:'Agentic AI 與工具整合' },
+  ]
+};
 
-const quizS2 = [
-  {
-    num:"Q1", src:"樣題 114.04", badge:"s2",
-    q:"下列何者最能表達 No Code / Low Code 平台的主要特色？",
-    opts:["需要撰寫大量程式碼","運用模板快速建立應用程式","僅供專業開發人員使用","只能製作靜態網站"],
-    ans:1,
-    exp:"No Code / Low Code 平台的核心特色是透過視覺化拖拉介面和模板，讓非技術人員也能快速建立應用程式，大幅降低開發門檻和時間。"
-  },
-  {
-    num:"Q2", src:"樣題 114.04", badge:"s2",
-    q:"下列哪種情況，選擇 Low Code 平台可能比 No Code 平台更為適合？",
-    opts:["需要非技術人員快速開發","應用需求簡單無需自訂功能","需要較複雜的業務邏輯並使用自訂整合功能","預算和時間極度有限"],
-    ans:2,
-    exp:"Low Code 允許少量程式碼，適合需要客製化業務邏輯或整合外部系統 API 的場景。No Code 完全不需寫程式，但客製化程度有限，適合簡單快速的應用。需要複雜邏輯但不想全自建時，Low Code 是最佳中間地帶。"
-  },
-  {
-    num:"Q3", src:"114 第四次公告", badge:"s2",
-    q:"使用生成式 AI 技術生成內容時，應採取哪項措施以確保內容品質？",
-    opts:["讓 AI 完全自主生成，不需人工審核","建立人工審核機制，確保輸出符合品質標準","提高 Temperature 參數使輸出更多樣","禁止在正式場合使用 AI 生成內容"],
-    ans:1,
-    exp:"生成式 AI 可能產生幻覺（Hallucination）、偏見或不準確資訊，因此需要建立人工審核機制（Human-in-the-loop）確保內容品質。提高 Temperature 只會讓輸出更隨機，無助於品質控管。"
-  },
-  {
-    num:"Q4", src:"115 年高頻", badge:"s2", hot:true,
-    q:"公司想讓 AI 助理回答員工關於內部 HR 政策的問題，要求答案有所本且可追溯來源，並降低 AI 幻覺風險。下列哪種技術最適合？",
-    opts:["對模型進行 Fine-tuning（微調）","採用 RAG（檢索增強生成）架構","使用 Zero-shot Prompting","提高 Top-p 採樣參數"],
-    ans:1,
-    exp:"RAG（Retrieval-Augmented Generation）先從指定文件庫中檢索相關段落，再讓 LLM 基於這些段落生成回答，有效降低幻覺且答案可追溯來源。Fine-tuning 成本高且模型仍可能幻覺；Zero-shot 無參考資料支撐；調整 Top-p 只影響輸出多樣性。"
-  },
-  {
-    num:"Q5", src:"115 年高頻", badge:"s2", hot:true,
-    q:"Chain-of-Thought（CoT）提示工程技術的主要目的是什麼？",
-    opts:["讓模型輸出更短更精簡的答案","透過引導模型逐步推理來提升複雜問題的準確率","降低模型的 API 使用費用","讓模型記住更多歷史對話"],
-    ans:1,
-    exp:"Chain-of-Thought 透過提示「讓我們一步一步思考...」引導模型展示中間推理過程，類似人類「打草稿」思考，能顯著提升數學計算、邏輯推理等複雜任務的準確率。"
-  },
-  {
-    num:"Q6", src:"115 年/歐盟 AI Act", badge:"s2", hot:true,
-    q:"根據歐盟 AI Act，某公司在辦公室使用 AI 系統即時辨識員工臉部以進行出勤管理，此 AI 應用屬於哪種風險等級？",
-    opts:["最低風險（Minimal Risk）","有限風險（Limited Risk）","高風險（High Risk）","不可接受風險（Unacceptable Risk）"],
-    ans:2,
-    exp:"歐盟 AI Act 將「用於就業場所的生物特徵辨識」歸類為高風險（High Risk），需接受嚴格的合規要求（透明性說明、資料登記等）。不可接受風險是指公共場所即時遠端生物特徵辨識（執法用途）。非執法目的的職場臉部辨識 = 高風險。"
-  },
-  {
-    num:"Q7", src:"114 樣題/實務", badge:"s2",
-    q:"在生成式 AI 導入過程中，資料安全與隱私保護最重要的考量是什麼？",
-    opts:["設定目標優先級","確保資料使用符合相關法規，保護用戶隱私","提升 AI 系統的計算效能","降低 AI 系統的開發成本"],
-    ans:1,
-    exp:"AI 導入涉及大量用戶資料，最重要的是確保資料處理符合個資法/GDPR 等法規，取得適當同意，並限制資料使用目的。忽視隱私合規可能面臨法律風險和用戶信任危機。"
-  },
-  {
-    num:"Q8", src:"115 年新增", badge:"s2", hot:true,
-    q:"企業評估「自建 AI 系統 vs 採購現成 AI 服務」(Buy vs. Build 決策)，下列哪種情況最適合選擇「採購（Buy）」？",
-    opts:["需要高度客製化的特殊演算法","有大量專屬訓練資料且需保護競爭優勢","需快速部署且業務需求符合市場通用解決方案","AI 為核心競爭力且需深度整合現有系統"],
-    ans:2,
-    exp:"Buy（採購）適合：快速部署、需求通用、無特殊差異化要求、IT 資源有限。Build（自建）適合：高度客製化、有專屬資料作為護城河、AI 是核心競爭力、需深度系統整合。題目描述「快速部署且需求通用」= 採購的最佳場景。"
-  }
-];
+const TOPIC_HINTS = {
+  concept: '涵蓋：AI/ML/DL 三層架構、弱/強AI、監督式/非監督式/強化學習、偏差變異數',
+  ethics: '涵蓋：AI 基本法、歐盟 AI Act 四大風險、Human-in/on/over-the-loop、AI 倫理五原則、差分隱私',
+  data: '涵蓋：資料清洗、缺失值處理、One-hot/Label Encoding、Data Leakage、SMOTE、時序交叉驗證',
+  model: '涵蓋：分類/迴歸/分群情境判斷、過擬合/欠擬合、評估指標（Precision/Recall/F1/AUC）、XAI（SHAP/LIME/反事實）',
+  dl: '涵蓋：CNN/RNN/LSTM/Transformer、激活函數、BatchNorm、殘差網路、遷移學習、邊緣AI',
+  adv: '涵蓋：集成學習（Bagging/Boosting/XGBoost）、模型壓縮（剪枝/量化/蒸餾）、MLOps、資料漂移、聯邦學習、MoE架構、GRPO',
+  nlp: '涵蓋：Tokenization、詞嵌入、情感分析、NER、PCA/t-SNE降維、自監督學習',
+  genai: '涵蓋：鑑別式vs生成式AI、LLM原理（Token/Temperature/Context Window）、AI Agent架構、幻覺根本原因、擴散模型、CLIP',
+  prompt: '涵蓋：Zero/Few-shot、Chain-of-Thought、RAG（檢索流程/分塊策略）、Fine-tuning vs RAG選擇、向量資料庫、System Prompt',
+  nocode: '涵蓋：No-Code/Low-Code比較、廠商鎖定風險、Webhook vs 輪詢、條件分支元件、Vibe Coding、AutoML',
+  deploy: '涵蓋：AI導入五步驟、Buy vs Build、ROI計算、變革管理、Quick Wins、分層培訓、TCO',
+  safety: '涵蓋：Deepfake標示、Prompt Injection（直接/間接）、AI著作權、GDPR/個資法、AI評測中心、訓練資料記憶洩漏',
+  agent: '涵蓋：AI Agent vs 傳統自動化、ReAct架構、Function Calling、Task Planner、Solution Graph、MCP、Agentic Coding、RFT vs SFT、Multi-Agent Context同步',
+  all: ''
+};
 
-// ─── RENDER QUIZ ───
-function renderQuiz(data, containerId) {
-  const wrap = document.getElementById(containerId);
-  wrap.innerHTML = data.map((q, qi) => `
-    <div class="q-card" id="qcard-${containerId}-${qi}">
-      <div class="q-head">
-        <div class="q-meta">
-          <span class="q-num">${q.num}</span>
-          <span class="q-badge qb-${q.badge}">${q.badge === 's1' ? '科目一' : '科目二'}</span>
-          ${q.hot ? '<span class="q-badge qb-hot">高頻</span>' : ''}
-          <span class="q-badge qb-src">${q.src}</span>
-        </div>
-        <div class="q-text">${q.q}</div>
-      </div>
-      <div class="q-opts" id="opts-${containerId}-${qi}">
-        ${q.opts.map((o, oi) => `
-          <div class="opt" id="opt-${containerId}-${qi}-${oi}" onclick="pickOpt('${containerId}',${qi},${oi})">
-            <span class="opt-letter">${['A','B','C','D'][oi]}</span>
-            <span>${o}</span>
-          </div>
-        `).join('')}
-      </div>
-      <div class="q-explain" id="exp-${containerId}-${qi}">
-        <div class="exp-label">✦ 解析</div>
-        <strong>答案：${['A','B','C','D'][q.ans]}</strong>。${q.exp}
-      </div>
-      <button class="ai-btn" id="aibtn-${containerId}-${qi}" onclick="askAI('${containerId}',${qi})">
-        ✦ 請 AI 深入解析這題
-      </button>
-      <div class="ai-resp" id="airesp-${containerId}-${qi}"></div>
+function buildGenUI(subj) {
+  const topics = GEN_TOPICS[subj];
+  const wrap = document.getElementById(`gen-ui-${subj}`);
+  wrap.innerHTML = `
+    <div class="sim-intro" style="margin-bottom:.75rem">
+      <div class="sim-title">🎯 AI 模擬出題器</div>
+      <div class="sim-desc">選擇考點主題，AI 即時生成全新選擇題，每次出題都不同。<br>建議先在考古題網站練完，再用這裡測試知識盲點。</div>
     </div>
-  `).join('');
+    <div style="background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:.9rem 1rem;margin-bottom:.75rem">
+      <div class="sec-title" style="margin:0 0 .55rem">選擇考點</div>
+      <div style="display:flex;flex-direction:column;gap:.35rem" id="topic-btns-${subj}">
+        ${topics.map(t => `
+          <button onclick="selectTopic('${subj}','${t.id}')" id="tb-${subj}-${t.id}"
+            style="text-align:left;padding:.55rem .8rem;border-radius:7px;border:1.5px solid var(--line);background:var(--white);font-family:var(--sans);font-size:.82rem;cursor:pointer;transition:all .15s;color:var(--ink2)">
+            ${t.label}
+          </button>`).join('')}
+      </div>
+      <div style="display:flex;gap:.5rem;margin-top:.75rem;align-items:center;flex-wrap:wrap">
+        <span style="font-family:var(--mono);font-size:.62rem;color:var(--sub)">題數：</span>
+        ${[3,5,8].map(n=>`<button onclick="setCount('${subj}',${n})" id="cnt-${subj}-${n}"
+          style="font-family:var(--mono);font-size:.65rem;padding:.25rem .6rem;border-radius:99px;border:1px solid var(--line);background:var(--white);cursor:pointer;transition:all .15s;color:var(--ink2)">${n} 題</button>`).join('')}
+      </div>
+    </div>
+    <button onclick="generateQuiz('${subj}')" id="gen-btn-${subj}"
+      style="width:100%;padding:.7rem;background:var(--s${subj==='s1'?'1':'2'});color:#fff;border:none;border-radius:var(--radius);font-family:var(--mono);font-size:.75rem;cursor:pointer;margin-bottom:.75rem;opacity:.45">
+      ✦ 出題
+    </button>
+    <div id="gen-hint-${subj}" style="font-family:var(--mono);font-size:.62rem;color:var(--sub);text-align:center;margin-bottom:.5rem"></div>
+    <div id="gen-out-${subj}"></div>
+  `;
+  // defaults
+  wrap._topic = null;
+  wrap._count = 5;
+  setCount(subj, 5);
 }
 
-function pickOpt(cid, qi, oi) {
-  const q = cid === 'quiz-s1-wrap' ? quizS1[qi] : quizS2[qi];
-  const cardId = `qcard-${cid}-${qi}`;
-  if (document.getElementById(cardId).classList.contains('answered')) return;
-  document.getElementById(cardId).classList.add('answered');
-
-  const opts = document.querySelectorAll(`#opts-${cid}-${qi} .opt`);
-  opts.forEach((o, i) => {
-    o.classList.add('disabled');
-    if (i === oi) o.classList.add(oi === q.ans ? 'correct' : 'wrong');
-    if (i === q.ans && oi !== q.ans) o.classList.add('reveal');
+function selectTopic(subj, id) {
+  const wrap = document.getElementById(`gen-ui-${subj}`);
+  wrap._topic = id;
+  document.querySelectorAll(`#topic-btns-${subj} button`).forEach(b => {
+    b.style.background = 'var(--white)';
+    b.style.borderColor = 'var(--line)';
+    b.style.color = 'var(--ink2)';
   });
-
-  document.getElementById(`exp-${cid}-${qi}`).classList.add('show');
-  document.getElementById(`aibtn-${cid}-${qi}`).classList.add('show');
-  updateProgress();
+  const btn = document.getElementById(`tb-${subj}-${id}`);
+  const col = subj==='s1' ? 'var(--s1)' : 'var(--s2)';
+  const colL = subj==='s1' ? 'var(--s1-light)' : 'var(--s2-light)';
+  btn.style.background = colL;
+  btn.style.borderColor = col;
+  btn.style.color = col;
+  // show hint
+  const hint = TOPIC_HINTS[id] || '';
+  const hintEl = document.getElementById(`gen-hint-${subj}`);
+  hintEl.textContent = hint ? `📌 ${hint}` : '';
+  // enable button
+  document.getElementById(`gen-btn-${subj}`).style.opacity = '1';
 }
 
-// ─── AI Explain per question ───
-async function askAI(cid, qi) {
-  const q = cid === 'quiz-s1-wrap' ? quizS1[qi] : quizS2[qi];
-  const btn = document.getElementById(`aibtn-${cid}-${qi}`);
-  const resp = document.getElementById(`airesp-${cid}-${qi}`);
+function setCount(subj, n) {
+  const wrap = document.getElementById(`gen-ui-${subj}`);
+  wrap._count = n;
+  [3,5,8].forEach(x => {
+    const b = document.getElementById(`cnt-${subj}-${x}`);
+    const col = subj==='s1' ? 'var(--s1)' : 'var(--s2)';
+    if(x===n){ b.style.background=col; b.style.color='#fff'; b.style.borderColor=col; }
+    else { b.style.background='var(--white)'; b.style.color='var(--ink2)'; b.style.borderColor='var(--line)'; }
+  });
+}
+
+async function generateQuiz(subj) {
+  const wrap = document.getElementById(`gen-ui-${subj}`);
+  if(!wrap._topic) return;
+  const count = wrap._count || 5;
+  const topicObj = GEN_TOPICS[subj].find(t=>t.id===wrap._topic);
+  const hint = TOPIC_HINTS[wrap._topic] || '';
+  const subjLabel = subj==='s1' ? '科目一（人工智慧基礎概論）' : '科目二（生成式AI應用與規劃）';
+  const out = document.getElementById(`gen-out-${subj}`);
+  const btn = document.getElementById(`gen-btn-${subj}`);
+
   btn.disabled = true;
-  btn.textContent = '載入中...';
-  resp.classList.add('show');
-  resp.innerHTML = `<div class="ai-label">AI 深度解析</div><div class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div> 思考中...</div>`;
+  btn.textContent = '⏳ 出題中...';
+  out.innerHTML = `<div style="text-align:center;padding:2rem;font-family:var(--mono);font-size:.72rem;color:var(--sub)">
+    <div class="dot-pulse" style="justify-content:center;margin-bottom:.5rem"><span></span><span></span><span></span></div>AI 正在生成題目，請稍候...
+  </div>`;
+
+  const topicInstruction = wrap._topic==='all'
+    ? `隨機混合 ${subjLabel} 的各考點出題`
+    : `專注考點：${topicObj.label}（${hint}）`;
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: `你是 iPAS AI 應用規劃師初級考試的備考教師，專門協助 HR 背景、有 AI 工具使用經驗的考生。
-用簡潔、白話的繁體中文解析考題（不超過 200 字），格式：
-1. 核心概念一句話說清楚
-2. 各選項為何對或錯（2-3 句）
-3. 記憶口訣或 HR 視角連結（1 句）
-不要用 markdown，直接輸出文字。`,
-        messages: [{
-          role: 'user',
-          content: `題目：${q.q}\n選項：${q.opts.map((o,i)=>['A','B','C','D'][i]+'. '+o).join('；')}\n正確答案：${['A','B','C','D'][q.ans]}\n\n請深入解析這題。`
-        }]
+        model:'claude-sonnet-4-6',
+        max_tokens:1000,
+        system:`你是 iPAS AI 應用規劃師初級考試的出題老師，專門為 HR 背景考生出題。
+請生成 ${count} 道四選一選擇題，格式必須是合法 JSON 陣列，不加任何說明文字或 markdown：
+[{"q":"題目","opts":["A","B","C","D"],"ans":0,"exp":"解析（50字內，可含HR視角或記憶口訣）"}]
+ans 為正確選項的 index（0-3）。
+出題要求：
+- 符合 iPAS 初級考試風格（情境題或概念辨別題）
+- ${topicInstruction}
+- 四個選項都要合理，不能有明顯錯誤選項
+- 解析要指出答案的關鍵理由，並說明常見陷阱`,
+        messages:[{role:'user', content:`請出 ${count} 道 ${subjLabel} ${topicObj.label} 的模擬題。`}]
       })
     });
     const data = await res.json();
-    const text = data.content?.[0]?.text || '無法取得解析，請重試。';
-    resp.innerHTML = `<div class="ai-label">✦ AI 深度解析</div>${text.replace(/\n/g,'<br>')}`;
-    btn.style.display = 'none';
+    const raw = data.content?.[0]?.text || '';
+    const jsonMatch = raw.match(/\[[\s\S]*\]/);
+    if(!jsonMatch) throw new Error('parse error');
+    const questions = JSON.parse(jsonMatch[0]);
+    renderGenQuiz(questions, out, subj);
   } catch(e) {
-    resp.innerHTML = `<div class="ai-label">⚠ 錯誤</div>AI 暫時無法回應，請稍後再試。`;
-    btn.disabled = false;
-    btn.textContent = '✦ 請 AI 深入解析這題';
+    out.innerHTML = `<div style="text-align:center;padding:1.5rem;color:var(--hot);font-size:.8rem">⚠ 出題失敗，請再試一次。<br><span style="font-size:.7rem;color:var(--sub)">${e.message}</span></div>`;
   }
+  btn.disabled = false;
+  btn.textContent = '✦ 再出一組';
 }
 
+function renderGenQuiz(questions, container, subj) {
+  const letters = ['A','B','C','D'];
+  const badgeCls = subj==='s1' ? 'qb-s1' : 'qb-s2';
+  const badgeTxt = subj==='s1' ? '科目一' : '科目二';
+  container.innerHTML = questions.map((q,qi)=>`
+    <div class="q-card" id="gq-${subj}-${qi}">
+      <div class="q-head">
+        <div class="q-meta">
+          <span class="q-num">Q${qi+1}</span>
+          <span class="q-badge ${badgeCls}">${badgeTxt}</span>
+          <span class="q-badge" style="background:var(--warn-light);color:var(--warn)">AI 模擬題</span>
+        </div>
+        <div class="q-text">${q.q}</div>
+      </div>
+      <div class="q-opts" id="gopts-${subj}-${qi}">
+        ${q.opts.map((o,oi)=>`
+          <div class="opt" id="gopt-${subj}-${qi}-${oi}" onclick="pickGen('${subj}',${qi},${oi},${q.ans})">
+            <span class="opt-letter">${letters[oi]}</span><span>${o}</span>
+          </div>`).join('')}
+      </div>
+      <div class="q-explain" id="gexp-${subj}-${qi}">
+        <div class="exp-label">✦ 解析</div>
+        <strong>答案：${letters[q.ans]}</strong>。${q.exp}
+      </div>
+    </div>`).join('');
+}
+
+function pickGen(subj, qi, oi, ans) {
+  const card = document.getElementById(`gq-${subj}-${qi}`);
+  if(card.classList.contains('answered')) return;
+  card.classList.add('answered');
+  const opts = document.querySelectorAll(`#gopts-${subj}-${qi} .opt`);
+  opts.forEach((o,i)=>{
+    o.classList.add('disabled');
+    if(i===oi) o.classList.add(oi===ans?'correct':'wrong');
+    if(i===ans && oi!==ans) o.classList.add('reveal');
+  });
+  document.getElementById(`gexp-${subj}-${qi}`).classList.add('show');
+}
+
+// ─── RENDER QUIZ（舊函式保留空實作避免錯誤）───
+function renderQuiz(){}
+const quizS1=[], quizS2=[];
 // ─── AI CHAT ───
 let chatHistory = [];
 let qCount = 0;
@@ -1453,16 +1644,15 @@ function toggleK(id) {
 let openedCards = new Set();
 function updateProgress() {
   document.querySelectorAll('.k-body.open').forEach(b => openedCards.add(b.id));
-  document.querySelectorAll('.q-card.answered').forEach(c => openedCards.add(c.id));
-  const total = 14 + quizS1.length + quizS2.length; // 14 knowledge cards + quizzes
+  const total = 15;
   const pct = Math.min(100, Math.round((openedCards.size / total) * 100));
   document.getElementById('prog-pct').textContent = pct + '%';
   document.getElementById('prog-bar').style.width = pct + '%';
 }
 
 // ─── INIT ───
-renderQuiz(quizS1, 'quiz-s1-wrap');
-renderQuiz(quizS2, 'quiz-s2-wrap');
+buildGenUI('s1');
+buildGenUI('s2');
 toggleK('kc1');
 </script>
 </body>
